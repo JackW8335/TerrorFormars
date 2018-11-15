@@ -119,40 +119,9 @@ public class Player : MonoBehaviour
                     audioManager.GetComponent<AudioScript>().audioSource.Play();
                 }
             }
-            else if (Input.GetButton("Intensity Dance"))
-            {
-                anim.SetBool("IntensityDance", true);
-                if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-                {
-                    audioManager.GetComponent<AudioScript>().setAudio(dances[1]);
-                    audioManager.GetComponent<AudioScript>().audioSource.Play();
-                }
-            }
-            else if (Input.GetButton("Therapy Dance"))
-            {
-                anim.SetBool("TherapyDance", true);
-                if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-                {
-                    audioManager.GetComponent<AudioScript>().setAudio(dances[2]);
-                    audioManager.GetComponent<AudioScript>().audioSource.time = 0.46f;
-                    audioManager.GetComponent<AudioScript>().audioSource.Play();
-                }
-            }
-            else if (Input.GetButton("Confused"))
-            {
-                anim.SetBool("Confused", true);
-            }
-            else if (Input.GetButton("Dab"))
-            {
-                anim.SetBool("Dab", true);
-            }
             else
             {
                 anim.SetBool("DefaultDance", false);
-                anim.SetBool("IntensityDance", false);
-                anim.SetBool("TherapyDance", false);
-                anim.SetBool("Confused", false);
-                anim.SetBool("Dab", false);
 
                 audioManager.GetComponent<AudioScript>().audioSource.Stop();
             }
