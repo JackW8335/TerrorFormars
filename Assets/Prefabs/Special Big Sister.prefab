@@ -2011,8 +2011,6 @@ MonoBehaviour:
   MovingBackwards: 0
   dances:
   - {fileID: 8300000, guid: daad8d628c0e2ea47b14c4a7e94dccd4, type: 3}
-  - {fileID: 8300000, guid: 9e9e04351fbf26c42adfa8a07cd47fc4, type: 3}
-  - {fileID: 8300000, guid: adec85724859e814986ef57832dc7078, type: 3}
 --- !u!136 &136617547099066852
 CapsuleCollider:
   m_ObjectHideFlags: 1
