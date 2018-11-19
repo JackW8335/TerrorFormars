@@ -52,11 +52,11 @@ public class ProcdeuralGeneration : MonoBehaviour
             //Generate cave or tunel
             if (!generateTunel)
             {
-                currentRoute.Add(GenerateCave(i, Random.Range(0, 3)));
+                currentRoute.Add(GenerateCave(i, Random.Range(0, caves.Length)));
             }
             else
             {
-                currentRoute.Add(GenerateCave(i, Random.Range(0, 2)));
+                currentRoute.Add(GenerateCave(i, Random.Range(0, 1)));
                 
             }
         }
