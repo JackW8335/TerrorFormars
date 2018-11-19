@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 29e590a98a96d374faef7417b40123fd
+guid: c3095fe75ccb30a4f8d97679d944ce52
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: lambert1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Tunnel_1_Altered_Pivot
+    4300000: Room_Small
   externalObjects: {}
   materials:
     importMaterials: 1
