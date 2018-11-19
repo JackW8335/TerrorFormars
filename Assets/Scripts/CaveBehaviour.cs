@@ -48,7 +48,9 @@ public class CaveBehaviour : MonoBehaviour
         float randValue = Random.Range(0, 100);
 
         /* 25% chance to be one of the hazards, need to check somehow what the 
-        last hazard was so the same one doesnt keep coming up*/
+        last hazard was so the same one doesnt keep coming up
+        Would maybe need to use instances of caves and have a HazardType return 
+        function to get the type from the last cave Instance*/
         if (randValue <= 25)
         {
             currentHazard = HazardType.WATER;
