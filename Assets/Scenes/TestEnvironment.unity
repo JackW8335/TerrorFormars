@@ -285,11 +285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   caves:
   - {fileID: 1178300716368190, guid: 876d0f23481fa9d40aa1a111f9f59b42, type: 2}
-  - {fileID: 1603708375906966, guid: a79408ffcd905384d9085f1a1f51a7a3, type: 2}
-  - {fileID: 1839230964876622, guid: dc0f403db9632fd4bad4ff534f5d647b, type: 2}
-  tunels:
+  tunnels:
   - {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59, type: 2}
-  - {fileID: 1739476683131694, guid: b33d6173d894a514c896ed00760f5a0f, type: 2}
   currentPrefabPos: {x: 0, y: 0, z: 0}
   generationSize: 25
 --- !u!4 &1421964586
