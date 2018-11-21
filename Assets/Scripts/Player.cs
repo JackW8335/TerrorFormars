@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     Animator anim;
 
     [Header("Movement Stuff")]
+    public float oxygen = 100;
     public int walkSpeed;
     public int runSpeed;
     private int speed;
@@ -53,8 +55,19 @@ public class Player : MonoBehaviour
         Movement(h, v);
         setDirection(h, v);
         emotes(h, v);
+
+        GetOxygen();
     }
 
+    public float GetOxygen()
+    {
+        oxygen -= 5 * Time.deltaTime;
+        if(oxygen < 0)
+            oxygen = 0;
+
+        return oxygen;
+
+    }
     //Does the movement
     void Movement(float h, float v)
     {
