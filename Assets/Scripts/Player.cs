@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     private float waterSurfacePosY = 0.0f;
     public float aboveWaterTolerance = 0.5f;
 
+    public Transform head;
+
     [Range(0.5f, 3.0f)]
     public float UpDownSpeed = 1.0f;
     public Color fogColurWater;
@@ -69,16 +71,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Set underwater rendering or default
-        if (isUnderWater())
-        {
-            setRenderDive();
-        }
-        else
-        {
-            setRenderDefault();
-        }
-
+  
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
@@ -92,17 +85,17 @@ public class Player : MonoBehaviour
             {
                 rb.drag = 3.0f;
                 Dive(v, h);
+                setRenderDive();
             }
             else
             {
-                rb.useGravity = true;
+                setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
             }
         }
         else
         {
-            rb.useGravity = true;
             Movement(h, v);
             setDirection(h, v);
         }
@@ -152,16 +145,13 @@ public class Player : MonoBehaviour
         right.y = 0;
 
         desiredMoveDirection = (forward * v + right * h);
-        //desiredMoveDirection.y = 0;
-
     }
 
     void Dive(float v, float h)
     {
-        rb.useGravity = false;
         Vector3 move = new Vector3(0, 0, 0);
 
-        if (mainCam.gameObject.transform.position.y < (waterSurfacePosY + aboveWaterTolerance))
+        if (head.position.y < (waterSurfacePosY + aboveWaterTolerance))
         {
             if (Input.GetKey(KeyCode.P))//Surface
             {
@@ -172,7 +162,6 @@ public class Player : MonoBehaviour
             }
 
         }
-
         rb.velocity = move;
 
         transform.position += move * Time.deltaTime;
@@ -201,7 +190,7 @@ public class Player : MonoBehaviour
 
     bool isUnderWater()
     {
-        return mainCam.gameObject.transform.position.y < (waterSurfacePosY);
+        return head.position.y < (waterSurfacePosY);
     }
 
     void setRenderDive()
@@ -224,12 +213,19 @@ public class Player : MonoBehaviour
         mainCam.GetComponent<PostProcessingBehaviour>().enabled = false;//.profile = PPP_Land;
     }
 
+    public float getYPos()
+    {
+        CapsuleCollider capsule = GetComponent<CapsuleCollider>();
+        float height = capsule.height;
+        return transform.position.y + height;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if(LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
         {
             IsInWater = true;
-            waterSurfacePosY = other.gameObject.transform.position.y * other.bounds.size.y;
+            waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
         }
 
     }
