@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.PostProcessing;
 
 public class Player : MonoBehaviour
 {
@@ -30,6 +31,25 @@ public class Player : MonoBehaviour
     private float joystick_deadzone = 0.3f;
     private bool running = false;
 
+    //Swim
+    public bool IsInWater = false;
+    private FogMode fogMode;
+    private float fogDensity;
+    private Color fogColour;
+    private bool fogEnabled;
+    private float waterSurfacePosY = 0.0f;
+    public float aboveWaterTolerance = 0.5f;
+
+    public Transform head;
+
+    [Range(0.5f, 3.0f)]
+    public float UpDownSpeed = 1.0f;
+    public Color fogColurWater;
+    public PostProcessingProfile PPP_Land;
+    public PostProcessingProfile PPP_Underwater;
+
+
+
     [Header("Audio Stuff")]
     private GameObject audioManager;
     public AudioClip[] dances;
@@ -37,6 +57,13 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        aboveWaterTolerance = 0.5f;
+        fogColurWater = new Color(0.2f, 0.65f, 0.75f, 0.5f);
+        fogMode = RenderSettings.fogMode;
+        fogDensity = RenderSettings.fogDensity;
+        fogColour = RenderSettings.fogColor;
+        fogEnabled = RenderSettings.fog;
+
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
@@ -46,15 +73,34 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+  
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
         anim.SetFloat("Vertical", v);
         anim.SetFloat("Horizontal", h);
 
-        Movement(h, v);
-        setDirection(h, v);
-        emotes(h, v);
+
+        if (IsInWater)
+        {
+            if (isUnderWater())
+            {
+                rb.drag = 3.0f;
+                Dive(v, h);
+                setRenderDive();
+            }
+            else
+            {
+                setRenderDefault();
+                Movement(h, v);
+                setDirection(h, v);
+            }
+        }
+        else
+        {
+            Movement(h, v);
+            setDirection(h, v);
+        }
 
         GetOxygen();
     }
@@ -93,12 +139,10 @@ public class Player : MonoBehaviour
 
             Vector3 move = desiredMoveDirection * speed;
 
-            move.y = rb.velocity.y;
+            //move.y = rb.velocity.y;
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
-
-
         }
     }
 
@@ -114,30 +158,98 @@ public class Player : MonoBehaviour
         right.y = 0;
 
         desiredMoveDirection = (forward * v + right * h);
-        desiredMoveDirection.y = 0;
+    }
+
+    void Dive(float v, float h)
+    {
+        Vector3 move = new Vector3(0, 0, 0);
+
+        if (head.position.y < (waterSurfacePosY + aboveWaterTolerance))
+        {
+            if (Input.GetKey(KeyCode.P))//Surface
+            {
+                move.y = +UpDownSpeed;
+            }else if (Input.GetKey(KeyCode.I))//Dive
+            {
+                move.y = -UpDownSpeed;
+            }
+
+        }
+        rb.velocity = move;
+
+        transform.position += move * Time.deltaTime;
+
+        SwimMovement(v,h);
+        setDirection(h, v);
+    }
+
+    void SwimMovement(float v, float h)
+    {
+        float swimSpeed = 3.5f;
+
+        if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
+        {
+
+            desiredMoveDirection = Vector3.RotateTowards(desiredMoveDirection, desiredMoveDirection, 10 * Time.deltaTime, 1000);
+            desiredMoveDirection = desiredMoveDirection.normalized;
+            transform.rotation = Quaternion.LookRotation(desiredMoveDirection);
+
+            Vector3 move = desiredMoveDirection * swimSpeed;
+
+            rb.velocity = move;
+            transform.position += move * Time.deltaTime;
+        }
+    }
+
+    bool isUnderWater()
+    {
+        return head.position.y < (waterSurfacePosY);
+    }
+
+    void setRenderDive()
+    {
+
+        RenderSettings.fog = true;
+        RenderSettings.fogColor = fogColurWater;
+        RenderSettings.fogDensity = 0.1f;
+        RenderSettings.fogMode = FogMode.Exponential;
+
+        mainCam.GetComponent<PostProcessingBehaviour>().enabled = true;//.profile = PPP_Underwater;
+    }
+
+    void setRenderDefault()
+    {
+        RenderSettings.fog = fogEnabled;
+        RenderSettings.fogColor = fogColour;
+        RenderSettings.fogMode = fogMode;
+        RenderSettings.fogDensity = fogDensity;
+        mainCam.GetComponent<PostProcessingBehaviour>().enabled = false;//.profile = PPP_Land;
+    }
+
+    public float getYPos()
+    {
+        CapsuleCollider capsule = GetComponent<CapsuleCollider>();
+        float height = capsule.height;
+        return transform.position.y + height;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
+        {
+            IsInWater = true;
+            waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
+        }
 
     }
 
-    void emotes(float h, float v)
+    private void OnTriggerExit(Collider other)
     {
-        if (v == 0 && h == 0)
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
         {
-            if (Input.GetButton("Default Dance"))
-            {
-                anim.SetBool("DefaultDance", true);
-                if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-                {
-                    audioManager.GetComponent<AudioScript>().setAudio(dances[0]);
-                    audioManager.GetComponent<AudioScript>().audioSource.time = 0.46f;
-                    audioManager.GetComponent<AudioScript>().audioSource.Play();
-                }
-            }
-            else
-            {
-                anim.SetBool("DefaultDance", false);
+            IsInWater = false;
+            waterSurfacePosY = 0.0f;
 
-                audioManager.GetComponent<AudioScript>().audioSource.Stop();
-            }
         }
     }
 }
