@@ -9,51 +9,46 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1783717475242756}
+  m_RootGameObject: {fileID: 1891462233606844}
   m_IsPrefabAsset: 1
---- !u!1 &1783717475242756
+--- !u!1 &1891462233606844
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4290229229180272}
-  - component: {fileID: 114317136067681064}
+  - component: {fileID: 4118383940495846}
+  - component: {fileID: 114814523943739566}
   m_Layer: 0
-  m_Name: Floor
+  m_Name: Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4290229229180272
+--- !u!4 &4118383940495846
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1783717475242756}
+  m_GameObject: {fileID: 1891462233606844}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.0368133, y: 49.61151, z: 14.651907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114317136067681064
+--- !u!114 &114814523943739566
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1783717475242756}
+  m_GameObject: {fileID: 1891462233606844}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd669932e0f7a1a46ad3f9b827c1f479, type: 3}
+  m_Script: {fileID: 11500000, guid: 599801231b099ed48bb35fe8b471bc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minNumOfRooms: 4
-  maxNumOfRooms: 7
-  roomsToBeMade: 0
-  currentNumOfRooms: 0
-  rooms: []
-  room: {fileID: 1891462233606844, guid: 42c892923b23596448ae32227ed97055, type: 2}
+  roomPrefab: {fileID: 1178300716368190, guid: 876d0f23481fa9d40aa1a111f9f59b42, type: 2}

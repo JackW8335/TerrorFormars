@@ -21,6 +21,6 @@ public class LevelGeneration : MonoBehaviour {
 
     void AddFloorToMap()
     {
-        Instantiate(floorObj, this.transform);
+        Instantiate(floorObj, this.transform);  //position of level will have to be calculated here
     }
 }
