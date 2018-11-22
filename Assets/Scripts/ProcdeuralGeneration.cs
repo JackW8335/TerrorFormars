@@ -18,6 +18,7 @@ public class ProcdeuralGeneration : MonoBehaviour
     private int tunelGap = 3;
 
     public int generationSize = 15;
+    public int floorCount = 1;
 
     bool generateTunel = false;
 
@@ -33,6 +34,12 @@ public class ProcdeuralGeneration : MonoBehaviour
 	
 	void MainGeneration()
     {
+        // First loop through number of floors
+        //then for each floor, run the generateRooms function
+        //for (int i = 0; i < floorCount; i++)
+        //{
+
+        //}
 
         Random.seed = Random.Range(0, 1000);
         int tunelChance = 0;
@@ -65,7 +72,6 @@ public class ProcdeuralGeneration : MonoBehaviour
 
     GameObject GenerateCave(int nextObjID, GameObject nextObjPrefab)
     {
-
         Vector3 nextPrefabPos = new Vector3(0, 0, 0);
         Quaternion nextRot = new Quaternion(0, 0, 0, 0); 
         spawnPos = 0;
