@@ -21,8 +21,7 @@ public class Oxygen : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-        float oxygen = GameObject.Find("Special Big Sister").GetComponent<Player>().GetOxygen();
-       
+        float oxygen = GameObject.Find("Special Big Sister").GetComponent<Player>().oxygen;
 
         if (oxygen > 80)
         {
