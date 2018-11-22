@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public int walkSpeed;
     public int runSpeed;
     private int speed;
+    private float tempo;
     public float boostSpeedModifier = 2f;
 
     public int rotateSpeed;
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-  
+
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
@@ -108,7 +109,7 @@ public class Player : MonoBehaviour
     public float GetOxygen()
     {
         oxygen -= 5 * Time.deltaTime;
-        if(oxygen < 0)
+        if (oxygen < 0)
             oxygen = 0;
 
         return oxygen;
@@ -122,14 +123,14 @@ public class Player : MonoBehaviour
             speed = runSpeed;
             anim.SetBool("Running", true);
             running = true;
-            footSteps(1.5f, 0.01f);
+            tempo = 1.5f;
         }
         else
         {
             speed = walkSpeed;
             anim.SetBool("Running", false);
             running = false;
-            
+            tempo = 0.9f;
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
@@ -145,22 +146,22 @@ public class Player : MonoBehaviour
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
-            footSteps(1.0f,0.01f);
+            footSteps(tempo, 0.01f);
 
         }
 
-        
+
     }
 
-   void footSteps(float speed, float volume)
+    void footSteps(float speed, float volume)
     {
         if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
         {
             audioManager.GetComponent<AudioScript>().audioSource.pitch = speed;
             audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
-            audioManager.GetComponent<AudioScript>().setAudio(clips[Random.Range(1,3)]);
+            audioManager.GetComponent<AudioScript>().setAudio(clips[Random.Range(0, 2)]);
             audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
-            audioManager.GetComponent<AudioScript>().audioSource.PlayDelayed(-2.0f);
+            audioManager.GetComponent<AudioScript>().audioSource.Play();
         }
 
     }
@@ -187,7 +188,8 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.P))//Surface
             {
                 move.y = +UpDownSpeed;
-            }else if (Input.GetKey(KeyCode.I))//Dive
+            }
+            else if (Input.GetKey(KeyCode.I))//Dive
             {
                 move.y = -UpDownSpeed;
             }
@@ -197,7 +199,7 @@ public class Player : MonoBehaviour
 
         transform.position += move * Time.deltaTime;
 
-        SwimMovement(v,h);
+        SwimMovement(v, h);
         setDirection(h, v);
     }
 
@@ -253,7 +255,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
         {
             IsInWater = true;
             waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
