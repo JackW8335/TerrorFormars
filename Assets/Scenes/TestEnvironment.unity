@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -287,6 +287,10 @@ MonoBehaviour:
   - {fileID: 1178300716368190, guid: 876d0f23481fa9d40aa1a111f9f59b42, type: 2}
   tunnels:
   - {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59, type: 2}
+  - {fileID: 1192020941202298, guid: 1a45a140c882e8d45aacabdda304a390, type: 2}
+  transitionObjects:
+  - {fileID: 1754665150982476, guid: 66d3a1be1d6e83e4ea296b3f493b0b03, type: 2}
+  - {fileID: 1860511555685442, guid: 389537e503d72d543977378cdb347d27, type: 2}
   currentPrefabPos: {x: 0, y: 0, z: 0}
   generationSize: 25
 --- !u!4 &1421964586

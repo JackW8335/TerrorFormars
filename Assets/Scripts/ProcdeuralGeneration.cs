@@ -8,6 +8,8 @@ public class ProcdeuralGeneration : MonoBehaviour
 
     public GameObject[] tunnels;
 
+    public GameObject[] transitionObjects;
+
     List<GameObject> currentRoute;
 
     public Vector3 currentPrefabPos;
