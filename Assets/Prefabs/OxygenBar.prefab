@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 136967108480942638}
   - component: {fileID: 114210433800204872}
   m_Layer: 0
-  m_Name: HP
+  m_Name: OxygenBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
