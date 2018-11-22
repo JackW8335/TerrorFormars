@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
 
     [Header("Movement Stuff")]
     public float oxygen = 100;
+    public float oxygenDecrease = 5;
     public int walkSpeed;
     public int runSpeed;
     private int speed;
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
     private float joystick_deadzone = 0.3f;
     private bool running = false;
 
-    //Swim
+    [Header("Swimming")]
     public bool IsInWater = false;
     private FogMode fogMode;
     private float fogDensity;
@@ -48,7 +49,8 @@ public class Player : MonoBehaviour
     public PostProcessingProfile PPP_Land;
     public PostProcessingProfile PPP_Underwater;
 
-
+    [Header("Other")]
+    public GameObject oxygenTank;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -88,6 +90,7 @@ public class Player : MonoBehaviour
                 rb.drag = 3.0f;
                 Dive(v, h);
                 setRenderDive();
+                LowerOxygen(oxygenDecrease);
             }
             else
             {
@@ -101,18 +104,33 @@ public class Player : MonoBehaviour
             Movement(h, v);
             setDirection(h, v);
         }
-
-        GetOxygen();
+        if(Input.GetButtonDown("Taunt"))
+        {
+            Taunt();
+        }
+        //GetOxygen();
     }
-
+    
+    private void LowerOxygen(float amount)
+    {
+        oxygen -= amount * Time.deltaTime;
+        if (oxygen < 0)
+        {
+            oxygen = 0;
+        }
+    }
+    private void IncreaseOxygen(float amount)
+    {
+        oxygen += amount;
+        if (oxygen > 100)
+        {
+            oxygen = 100;
+        }
+    }
     public float GetOxygen()
     {
-        oxygen -= 5 * Time.deltaTime;
-        if(oxygen < 0)
-            oxygen = 0;
 
         return oxygen;
-
     }
     //Does the movement
     void Movement(float h, float v)
@@ -164,13 +182,15 @@ public class Player : MonoBehaviour
     {
         Vector3 move = new Vector3(0, 0, 0);
 
+        //also maybe set player rotation to face up or down when animation is implemented
         if (head.position.y < (waterSurfacePosY + aboveWaterTolerance))
         {
-            if (Input.GetKey(KeyCode.P))//Surface
+            if (Input.GetButton("Surface"))//Surface
             {
                 move.y = +UpDownSpeed;
-            }else if (Input.GetKey(KeyCode.I))//Dive
+            }else if (Input.GetButton("Dive"))//Dive
             {
+               
                 move.y = -UpDownSpeed;
             }
 
@@ -199,6 +219,17 @@ public class Player : MonoBehaviour
             rb.velocity = move;
             transform.position += move * Time.deltaTime;
         }
+    }
+
+    void Taunt()
+    {
+        if(oxygen > 25)
+        {
+            GameObject OT = Instantiate(oxygenTank, head.transform.position , Quaternion.identity);
+            OT.transform.eulerAngles = new Vector3(90, 0, 0);
+            oxygen -= 25;
+        }
+    
     }
 
     bool isUnderWater()
