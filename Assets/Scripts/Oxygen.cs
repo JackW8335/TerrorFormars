@@ -5,40 +5,43 @@ using UnityEngine.UI;
 
 public class Oxygen : MonoBehaviour {
 
-    public Sprite[] sprites;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    private Material m;
+
+    public void Start()
+    {
+        m = GetComponent<MeshRenderer>().material; //Getting the Material
+    }
+
+
+
+    // Update is called once per frame
+    void Update ()
     {
         float oxygen = GameObject.Find("Special Big Sister").GetComponent<Player>().GetOxygen();
 
         if (oxygen > 80)
         {
-           GetComponent<Image>().sprite = sprites[0];
+            m.SetFloat("_Threshold", 1.0f); //Setting _Threshold in the shader to healthValue
         }
         else if (oxygen > 60)
         {
-            GetComponent<Image>().sprite = sprites[1];
+            m.SetFloat("_Threshold", 0.8f);
         }
         else if (oxygen > 40)
         {
-            GetComponent<Image>().sprite = sprites[2];
+            m.SetFloat("_Threshold", 0.6f);
         }
         else if (oxygen > 20)
         {
-            GetComponent<Image>().sprite = sprites[3];
+            m.SetFloat("_Threshold", 0.4f);
         }
         else if (oxygen > 0)
         {
-            GetComponent<Image>().sprite = sprites[4];
+            m.SetFloat("_Threshold", 0.2f);
         }
         else if (oxygen == 0)
         {
-            GetComponent<Image>().sprite = sprites[5];
+            m.SetFloat("_Threshold", 0.0f);
         }
     }
 }
