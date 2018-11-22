@@ -14,7 +14,6 @@ public class OxygenThrow : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        rb.AddRelativeForce(new Vector3(0,0,5));
 	}
 
     private void OnTriggerEnter(Collider other)

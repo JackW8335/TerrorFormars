@@ -9,8 +9,7 @@ public class Player : MonoBehaviour
     Animator anim;
 
     [Header("Movement Stuff")]
-    public float oxygen = 100;
-    public float oxygenDecrease = 5;
+    
     public int walkSpeed;
     public int runSpeed;
     private int speed;
@@ -33,6 +32,8 @@ public class Player : MonoBehaviour
     private bool running = false;
 
     [Header("Swimming")]
+    public float oxygen = 100;
+    public float oxygenDecrease = 5;
     public bool IsInWater = false;
     private FogMode fogMode;
     private float fogDensity;
@@ -51,6 +52,8 @@ public class Player : MonoBehaviour
 
     [Header("Other")]
     public GameObject oxygenTank;
+    public Image deathFade;
+    private float fadeCounter = 0;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -107,6 +110,15 @@ public class Player : MonoBehaviour
         if(Input.GetButtonDown("Taunt"))
         {
             Taunt();
+        }
+
+        if(oxygen <= 0)
+        {
+            Dying();
+        }
+        else
+        {
+            deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
         }
         //GetOxygen();
     }
@@ -225,13 +237,33 @@ public class Player : MonoBehaviour
     {
         if(oxygen > 25)
         {
-            GameObject OT = Instantiate(oxygenTank, head.transform.position , Quaternion.identity);
-            OT.transform.eulerAngles = new Vector3(90, 0, 0);
+            GameObject OT = Instantiate(oxygenTank, head.transform.position ,this.transform.rotation);
+            //OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
+            OT.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * 5);
+            OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
             oxygen -= 25;
         }
     
     }
 
+    private void Dying()
+    {
+        if(fadeCounter <= 0.8f)
+        {
+            fadeCounter += 0.005f;
+        }
+        deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
+
+        StartCoroutine(Death());
+    }
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(10);
+        if(oxygen <= 0)
+        {
+            //set death bool anim to true
+        }
+    }
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
