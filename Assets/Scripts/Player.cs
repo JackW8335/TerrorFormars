@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     Animator anim;
 
     [Header("Movement Stuff")]
-    public float oxygen = 100;
+    
     public int walkSpeed;
     public int runSpeed;
     private int speed;
@@ -32,7 +32,9 @@ public class Player : MonoBehaviour
     private float joystick_deadzone = 0.3f;
     private bool running = false;
 
-    //Swim
+    [Header("Swimming")]
+    public float oxygen = 100;
+    public float oxygenDecrease = 5;
     public bool IsInWater = false;
     private FogMode fogMode;
     private float fogDensity;
@@ -49,7 +51,10 @@ public class Player : MonoBehaviour
     public PostProcessingProfile PPP_Land;
     public PostProcessingProfile PPP_Underwater;
 
-
+    [Header("Other")]
+    public GameObject oxygenTank;
+    public Image deathFade;
+    private float fadeCounter = 0;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -89,6 +94,7 @@ public class Player : MonoBehaviour
                 rb.drag = 3.0f;
                 Dive(v, h);
                 setRenderDive();
+                LowerOxygen(oxygenDecrease);
             }
             else
             {
@@ -102,18 +108,42 @@ public class Player : MonoBehaviour
             Movement(h, v);
             setDirection(h, v);
         }
+        if(Input.GetButtonDown("Taunt"))
+        {
+            Taunt();
+        }
 
-        GetOxygen();
+        if(oxygen <= 0)
+        {
+            Dying();
+        }
+        else
+        {
+            deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        }
+        //GetOxygen();
     }
-
+    
+    private void LowerOxygen(float amount)
+    {
+        oxygen -= amount * Time.deltaTime;
+        if (oxygen < 0)
+        {
+            oxygen = 0;
+        }
+    }
+    private void IncreaseOxygen(float amount)
+    {
+        oxygen += amount;
+        if (oxygen > 100)
+        {
+            oxygen = 100;
+        }
+    }
     public float GetOxygen()
     {
-        oxygen -= 5 * Time.deltaTime;
-        if (oxygen < 0)
-            oxygen = 0;
 
         return oxygen;
-
     }
     //Does the movement
     void Movement(float h, float v)
@@ -183,14 +213,15 @@ public class Player : MonoBehaviour
     {
         Vector3 move = new Vector3(0, 0, 0);
 
+        //also maybe set player rotation to face up or down when animation is implemented
         if (head.position.y < (waterSurfacePosY + aboveWaterTolerance))
         {
-            if (Input.GetKey(KeyCode.P))//Surface
+            if (Input.GetButton("Surface"))//Surface
             {
                 move.y = +UpDownSpeed;
-            }
-            else if (Input.GetKey(KeyCode.I))//Dive
+            }else if (Input.GetButton("Dive"))//Dive
             {
+               
                 move.y = -UpDownSpeed;
             }
 
@@ -221,6 +252,37 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Taunt()
+    {
+        if(oxygen > 25)
+        {
+            GameObject OT = Instantiate(oxygenTank, head.transform.position ,this.transform.rotation);
+            //OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
+            OT.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * 5);
+            OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
+            oxygen -= 25;
+        }
+    
+    }
+
+    private void Dying()
+    {
+        if(fadeCounter <= 0.8f)
+        {
+            fadeCounter += 0.005f;
+        }
+        deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
+
+        StartCoroutine(Death());
+    }
+    private IEnumerator Death()
+    {
+        yield return new WaitForSeconds(10);
+        if(oxygen <= 0)
+        {
+            //set death bool anim to true
+        }
+    }
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
