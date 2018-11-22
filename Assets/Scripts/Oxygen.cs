@@ -7,15 +7,15 @@ using UnityEngine.PostProcessing;
 public class Oxygen : MonoBehaviour {
 
     private Material m;
-    private VignetteModel.Settings vigenetteSettings;
+    private VignetteModel.Settings vignetteSettings;
     public PostProcessingProfile profile;
     public void Start()
     {
         m = GetComponent<MeshRenderer>().material; //Getting the Material
 
-        vigenetteSettings = profile.vignette.settings;
+        vignetteSettings = profile.vignette.settings;
 
-        vigenetteSettings.intensity = 0.0f;
+        vignetteSettings.intensity = 0.0f;
     }
 
     // Update is called once per frame
@@ -25,48 +25,48 @@ public class Oxygen : MonoBehaviour {
 
         if (oxygen > 80)
         {
-            if(vigenetteSettings.intensity < 0.0)
-                vigenetteSettings.intensity += 0.0025f;
-
+            if (vignetteSettings.intensity < 0.0)
+                vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 1.0f); //Setting _Threshold in the shader to healthValue
         }
         else if (oxygen > 60)
         {
-            if (vigenetteSettings.intensity < 0.2)
-                vigenetteSettings.intensity += 0.0025f;
+            //if (vignetteSettings.intensity < 0.2)
+            //    vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 0.8f);
         }
         else if (oxygen > 40)
         {
-            if (vigenetteSettings.intensity < 0.4)
-                vigenetteSettings.intensity += 0.0025f;
+            //if (vignetteSettings.intensity < 0.4)
+            //    vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 0.6f);
         }
         else if (oxygen > 20)
         {
-            if (vigenetteSettings.intensity < 0.6)
-                vigenetteSettings.intensity += 0.0025f;
+            //if (vignetteSettings.intensity < 0.6)
+            //    vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 0.4f);
         }
         else if (oxygen > 0)
         {
-            if (vigenetteSettings.intensity < 0.8)
-                vigenetteSettings.intensity += 0.0025f;
+            //if (vignetteSettings.intensity < 0.8)
+            //    vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 0.2f);
         }
         else if (oxygen == 0)
         {
-            if (vigenetteSettings.intensity < 1.0)
-                vigenetteSettings.intensity += 0.0025f;
+            //if (vignetteSettings.intensity < 1.0)
+            //    vignetteSettings.intensity += 0.0025f;
 
             m.SetFloat("_Threshold", 0.0f);
         }
-
-        profile.vignette.settings = vigenetteSettings;
+        vignetteSettings.intensity = (100.0f - oxygen) / 100;
+        profile.vignette.settings = vignetteSettings;
     }
+
 }

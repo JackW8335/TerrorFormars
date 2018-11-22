@@ -185,6 +185,18 @@ Prefab:
       propertyPath: clips.Array.data[2]
       value: 
       objectReference: {fileID: 8300000, guid: a1382e4f297374edea614c369f31dcb2, type: 3}
+    - target: {fileID: 114119447258558654, guid: 8d399842e56fbbe4b82b0d19455f42bf,
+        type: 2}
+      propertyPath: PPP_Land
+      value: 
+      objectReference: {fileID: 11400000, guid: c5f29c43bd77b3248b29510abc69be49,
+        type: 2}
+    - target: {fileID: 114119447258558654, guid: 8d399842e56fbbe4b82b0d19455f42bf,
+        type: 2}
+      propertyPath: PPP_Underwater
+      value: 
+      objectReference: {fileID: 11400000, guid: b2b8946eb67827344a61d07a0faabcfa,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d399842e56fbbe4b82b0d19455f42bf, type: 2}
   m_IsPrefabAsset: 0
@@ -212,6 +224,23 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: c3095fe75ccb30a4f8d97679d944ce52, type: 3}
+--- !u!1 &139067422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1134893059633060, guid: 0ece375093c1ae943a5f50f9c56052fb,
+    type: 2}
+  m_PrefabInternal: {fileID: 561176290}
+--- !u!114 &139067429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139067422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: c5f29c43bd77b3248b29510abc69be49, type: 2}
 --- !u!1 &143728031
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,6 +898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f5406040f255948bd4991bbb7c257b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: c5f29c43bd77b3248b29510abc69be49, type: 2}
 --- !u!136 &816607772
 CapsuleCollider:
   m_ObjectHideFlags: 0
