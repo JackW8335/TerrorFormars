@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
-    public AudioClip[] dances;
+    public AudioClip[] clips;
 
     // Use this for initialization
     void Start()
@@ -122,12 +122,14 @@ public class Player : MonoBehaviour
             speed = runSpeed;
             anim.SetBool("Running", true);
             running = true;
+            footSteps(1.5f, 0.01f);
         }
         else
         {
             speed = walkSpeed;
             anim.SetBool("Running", false);
             running = false;
+            
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
@@ -143,9 +145,25 @@ public class Player : MonoBehaviour
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
+            footSteps(1.0f,0.01f);
+
         }
+
+        
     }
 
+   void footSteps(float speed, float volume)
+    {
+        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        {
+            audioManager.GetComponent<AudioScript>().audioSource.pitch = speed;
+            audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
+            audioManager.GetComponent<AudioScript>().setAudio(clips[Random.Range(1,3)]);
+            audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
+            audioManager.GetComponent<AudioScript>().audioSource.PlayDelayed(-2.0f);
+        }
+
+    }
     void setDirection(float h, float v)
     {
         Transform cameraTransform = mainCam.transform;
