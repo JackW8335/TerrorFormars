@@ -90,7 +90,7 @@ public class ProcdeuralGeneration : MonoBehaviour
         GameObject nextObj = Instantiate(nextObjPrefab, new Vector3(spawnPos, 0, 0), Quaternion.identity);
         nextObj.transform.parent = transform;
         nextObj.transform.eulerAngles = new Vector3(0, 90, 0);
-
+        generateTunel = false;
         return nextObj;
     }
 
@@ -111,7 +111,7 @@ public class ProcdeuralGeneration : MonoBehaviour
         //10% chance
         else if(chance == 1)
         {
-            if(randValue < 10)
+            if(randValue < 30)
             {
                 generateTunel = true;
                 return true;
