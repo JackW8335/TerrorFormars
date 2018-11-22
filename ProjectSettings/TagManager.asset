@@ -8,6 +8,7 @@ TagManager:
   - EndPos
   - cave
   - tunnel
+  - Door
   layers:
   - Default
   - TransparentFX

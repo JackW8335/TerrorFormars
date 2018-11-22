@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4384252379516392}
   m_Layer: 0
   m_Name: Door (2)
-  m_TagString: EndPos
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,11 +69,11 @@ GameObject:
   - component: {fileID: 4533437591101530}
   m_Layer: 0
   m_Name: Door (0)
-  m_TagString: StartPos
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1769368408185030
 GameObject:
   m_ObjectHideFlags: 1
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 4614890051182004}
   m_Layer: 0
   m_Name: Door (1)
-  m_TagString: EndPos
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
