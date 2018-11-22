@@ -54,4 +54,7 @@ MonoBehaviour:
   maxNumOfRooms: 7
   minNumOfRooms: 3
   currentNumOfRooms: 0
-  rooms: []
+  rooms:
+  - {fileID: 1317879573260516, guid: 567ebc364c392674d8ecad1c86caeef4, type: 2}
+  - {fileID: 1317879573260516, guid: 567ebc364c392674d8ecad1c86caeef4, type: 2}
+  - {fileID: 1317879573260516, guid: 567ebc364c392674d8ecad1c86caeef4, type: 2}

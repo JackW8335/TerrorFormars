@@ -12,7 +12,6 @@ public class ProcdeuralGeneration : MonoBehaviour
 
     List<GameObject> currentRoute;
 
-    public Vector3 currentPrefabPos;
     private float spawnPos = 0;
 
     private int tunelGap = 3;
@@ -26,7 +25,6 @@ public class ProcdeuralGeneration : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        currentPrefabPos = new Vector3(0, 0, 0);
         currentRoute = new List<GameObject>();
        
         MainGeneration();
