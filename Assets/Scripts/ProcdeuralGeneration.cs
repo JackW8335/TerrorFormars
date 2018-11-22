@@ -38,7 +38,7 @@ public class ProcdeuralGeneration : MonoBehaviour
         //then for each floor, run the generateRooms function
         //for (int i = 0; i < floorCount; i++)
         //{
-
+        //    generateRooms();
         //}
 
         Random.seed = Random.Range(0, 1000);
@@ -59,18 +59,18 @@ public class ProcdeuralGeneration : MonoBehaviour
             //Generate cave or tunel
             if (!generateTunel)
             {
-                currentRoute.Add(GenerateCave(i, caves[Random.Range(0, caves.Length)]));
+                currentRoute.Add(PlaceObject(i, caves[Random.Range(0, caves.Length)]));
             }
             else
             {
-                currentRoute.Add(GenerateCave(i, tunnels[Random.Range(0, tunnels.Length)]));
+                currentRoute.Add(PlaceObject(i, tunnels[Random.Range(0, tunnels.Length)]));
 
             }
         }
 
     }
 
-    GameObject GenerateCave(int nextObjID, GameObject nextObjPrefab)
+    GameObject PlaceObject(int nextObjID, GameObject nextObjPrefab)
     {
         Vector3 nextPrefabPos = new Vector3(0, 0, 0);
         Quaternion nextRot = new Quaternion(0, 0, 0, 0); 
