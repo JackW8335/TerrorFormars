@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
             speed = runSpeed;
             anim.SetBool("Running", true);
             running = true;
-            footSteps(1.5f, 0.2f);
+            footSteps(1.5f, 0.01f);
         }
         else
         {
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
-            footSteps(1.0f,0.2f);
+            footSteps(1.0f,0.01f);
 
         }
 
