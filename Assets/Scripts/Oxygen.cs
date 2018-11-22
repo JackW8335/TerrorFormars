@@ -12,8 +12,6 @@ public class Oxygen : MonoBehaviour {
         m = GetComponent<MeshRenderer>().material; //Getting the Material
     }
 
-
-
     // Update is called once per frame
     void Update ()
     {
