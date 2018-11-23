@@ -64,7 +64,7 @@ public class LevelGeneration : MonoBehaviour
                 int branchLength = Random.Range(branchMin, branchMax);               
 
                 GenerateBranch(branchLength, i, tunnels[0], caveDoor);
-                caveDoor.tag = "closedDoor";
+               
             }
         }
     }
@@ -87,15 +87,18 @@ public class LevelGeneration : MonoBehaviour
                 fullCaveRoute.Add(newObject);
                 currentFloor.Add(newObject);
 
-                //if (currentFloor[currentFloor.Count - 1].tag == "cave")
-                //{
-                Door = newObject.transform.GetChild(1);// get exit
-                nextObject = tunnels[0];
-               // }
-                //else
-                //{
-                //    nextObject = pickObjectToMake();
-                //}
+                Door.tag = "closedDoor";
+
+                if (newObject.tag == "cave")
+                {
+                    Door = newObject.transform.GetChild(3);
+                    nextObject = tunnels[0];
+                }
+                else
+                {
+                    Door = newObject.transform.GetChild(1);// get exit
+                    nextObject = pickObjectToMake();
+                }
             }
         }
     }
