@@ -9,8 +9,8 @@ public class LevelGeneration : MonoBehaviour
     public int numFloors = 3;
     public int MaxObj = 11;
 
-     int branchMax = 11;
-     int branchMin = 0;
+     int branchMax = 5;
+     int branchMin = 1;
 
     public GameObject[] caves;
     public GameObject[] startObjects;
@@ -95,7 +95,7 @@ public class LevelGeneration : MonoBehaviour
                     Door = newObject.transform.GetChild(3);
                     Door.tag = "closedDoor";
                     nextObject = tunnels[0];
-                    branchOffCave(FloorNum, newObject);
+                    StartCoroutine(branchOffCave(FloorNum, newObject));
                 }
                 else
                 {
