@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4384252379516392}
   m_Layer: 0
   m_Name: Door (2)
-  m_TagString: Door
+  m_TagString: openDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 64158725177435300}
   m_Layer: 0
   m_Name: NwStartCave
-  m_TagString: Untagged
+  m_TagString: cave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,11 +69,11 @@ GameObject:
   - component: {fileID: 4533437591101530}
   m_Layer: 0
   m_Name: Door (0)
-  m_TagString: Door
+  m_TagString: openDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1769368408185030
 GameObject:
   m_ObjectHideFlags: 1
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 4614890051182004}
   m_Layer: 0
   m_Name: Door (1)
-  m_TagString: Door
+  m_TagString: openDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,7 +142,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1151302149032390}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.980813, y: 0.5174923, z: -31.873873}
+  m_LocalPosition: {x: -10.060736, y: 69.37666, z: -0.8501053}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 4533437591101530}
@@ -159,7 +159,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1016442672299988}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -469, y: 0, z: 2}
+  m_LocalPosition: {x: -469, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4276875561669918}
@@ -185,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1961758194596344}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 505, y: 0, z: 1.9999084}
+  m_LocalPosition: {x: 505, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4276875561669918}

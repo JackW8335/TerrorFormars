@@ -39,7 +39,6 @@ public class ProcdeuralGeneration : MonoBehaviour
         //    generateRooms();
         //}
 
-        Random.seed = Random.Range(0, 1000);
         int tunelChance = 0;
 
         for (int i = 0; i < generationSize; i++)
