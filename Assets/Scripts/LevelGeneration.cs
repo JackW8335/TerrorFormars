@@ -7,7 +7,8 @@ public class LevelGeneration : MonoBehaviour
 
 
     public int numFloors = 3;
-    public int MaxObj = 11;
+    //public int MaxObj = 11;
+    public int startRoomMaxBranch = 0;  //each start room's exit will assign a random value to this which wil decide how far that branch goes in total
 
      int branchMax = 5;
      int branchMin = 1;
@@ -45,27 +46,47 @@ public class LevelGeneration : MonoBehaviour
         currentFloor.Add(FloorStart);
 
         //gerate all tunnels off first object
-        StartCoroutine(branchOffCave(FloorNum, FloorStart));
+        branchOffCave(FloorNum, FloorStart);
     }
 
-    IEnumerator branchOffCave(int FloorNum, GameObject Cave)
+    void branchOffCave(int FloorNum, GameObject Cave)
     {
+        bool startCave = false;
+        if (currentFloor.Count == 1)
+        {
+            startCave = true;
+        }
 
         for (int i = 0; i < Cave.transform.childCount; i++)
         {
             Transform caveDoor = Cave.transform.GetChild(i);
-            if (caveDoor.tag == "openDoor")
-            {
-                if (FloorNum != 0 && i == 0)
-                {
-                    continue;
-                }
-                int branchLength = Random.Range(branchMin, branchMax);               
 
-                GenerateBranch(FloorNum,branchLength, i, tunnels[0], caveDoor);
+            if (caveDoor.tag == "openDoor")     //don't include the slope exit
+            {
+                if (startCave)  //when the floor only contains the start room
+                {
+                    if (FloorNum != 0 && i == 0)
+                    {
+                        caveDoor.tag = "closedDoor";
+                        continue;
+                    }
+                    startRoomMaxBranch = (int)Random.Range(5, 11);  //sets how many rooms will made from this start room's exit
+                    Debug.Log(FloorNum + " " + startRoomMaxBranch);
+                    //Call branching from here until startRoomMaxBranch is reched
+                    for (int j = 0; j <= startRoomMaxBranch; j++)
+                    {
+                        GenerateBranch(FloorNum, startRoomMaxBranch, i, tunnels[0], caveDoor);
+                        //Then add dead end room onto the end of current branch, may require a new list for the current branch
+                    }
+                }
+
+
+                int branchLength = Random.Range(branchMin, branchMax);
+
+                GenerateBranch(FloorNum, branchLength, i, tunnels[0], caveDoor);
+
             }
         }
-        yield return null;
     }
 
     void GenerateBranch(int FloorNum,int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
@@ -95,7 +116,7 @@ public class LevelGeneration : MonoBehaviour
                     Door = newObject.transform.GetChild(3);
                     Door.tag = "closedDoor";
                     nextObject = tunnels[0];
-                    StartCoroutine(branchOffCave(FloorNum, newObject));
+                    //branchOffCave(FloorNum, newObject);
                 }
                 else
                 {
