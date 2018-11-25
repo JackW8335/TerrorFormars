@@ -87,17 +87,17 @@ public class Player : MonoBehaviour
 
         anim.SetFloat("Vertical", v);
         anim.SetFloat("Horizontal", h);
-
-        //Testing oxygen
-        if (Input.GetKeyDown(KeyCode.P))
+  
+        if(anim.GetBool("Swimming"))
         {
-            IncreaseOxygen(20.0f);
+            anim.SetBool("InSwim", true);
         }
 
         if (IsInWater)
         {
             if (isUnderWater())
             {
+                anim.SetBool("Swimming", true);
                 rb.drag = 3.0f;
                 Dive(v, h);
                 setRenderDive();
@@ -105,6 +105,8 @@ public class Player : MonoBehaviour
             }
             else
             {
+                anim.SetBool("Swimming", false);
+                anim.SetBool("InSwim", false);
                 setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
@@ -114,6 +116,8 @@ public class Player : MonoBehaviour
         {
             Movement(h, v);
             setDirection(h, v);
+            anim.SetBool("Swimming", false);
+            anim.SetBool("InSwim", false);
         }
         if (Input.GetButtonDown("Taunt"))
         {
@@ -155,16 +159,17 @@ public class Player : MonoBehaviour
     //Does the movement
     void Movement(float h, float v)
     {
+
         if (Input.GetButton("Run"))
         {
             speed = runSpeed;
             anim.SetBool("Running", true);
             running = true;
             tempo = 1.5f;
-            if (anim.GetBool("Swimming"))
-            {
-                anim.speed = 3;
-            }
+            //if (anim.GetBool("Swimming"))
+            //{
+            //    anim.speed = 5;
+            //}
         }
         else
         {
@@ -172,10 +177,10 @@ public class Player : MonoBehaviour
             anim.SetBool("Running", false);
             running = false;
             tempo = 0.9f;
-            if (anim.GetBool("Swimming"))
-            {
-                anim.speed = 1;
-            }
+            //if (anim.GetBool("Swimming"))
+            //{
+            //    anim.speed = 3;
+            //}
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
@@ -186,7 +191,6 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(desiredMoveDirection);
 
             Vector3 move = desiredMoveDirection * speed;
-
             //move.y = rb.velocity.y;
             rb.velocity = move;
 
@@ -194,6 +198,7 @@ public class Player : MonoBehaviour
             footSteps(tempo, 0.01f);
 
         }
+
 
 
     }
@@ -265,7 +270,27 @@ public class Player : MonoBehaviour
 
             rb.velocity = move;
             transform.position += move * Time.deltaTime;
+
+            anim.SetBool("Moving", true);
         }
+        else
+        {
+            anim.SetBool("Moving", false);
+        }
+
+        if (Input.GetButton("Run"))
+        {
+            speed = runSpeed;
+            anim.SetBool("Running", true);
+            running = true;
+        }
+        else
+        {
+            speed = walkSpeed;
+            anim.SetBool("Running", false);
+            running = false;
+        }
+
     }
 
     void Taunt()

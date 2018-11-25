@@ -216,7 +216,7 @@ Prefab:
     - target: {fileID: 114119447258558654, guid: 8d399842e56fbbe4b82b0d19455f42bf,
         type: 2}
       propertyPath: oxygenDecrease
-      value: 25
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8d399842e56fbbe4b82b0d19455f42bf, type: 2}
@@ -506,7 +506,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &548055491
 RectTransform:
   m_ObjectHideFlags: 0
