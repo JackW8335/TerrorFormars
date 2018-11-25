@@ -161,6 +161,10 @@ public class Player : MonoBehaviour
             anim.SetBool("Running", true);
             running = true;
             tempo = 1.5f;
+            if (anim.GetBool("Swimming"))
+            {
+                anim.speed = 3;
+            }
         }
         else
         {
@@ -168,6 +172,10 @@ public class Player : MonoBehaviour
             anim.SetBool("Running", false);
             running = false;
             tempo = 0.9f;
+            if (anim.GetBool("Swimming"))
+            {
+                anim.speed = 1;
+            }
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
