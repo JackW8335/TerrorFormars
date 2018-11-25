@@ -350,6 +350,12 @@ Prefab:
       propertyPath: MaxObj
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
+        type: 2}
+      propertyPath: deadEnd
+      value: 
+      objectReference: {fileID: 1839230964876622, guid: dc0f403db9632fd4bad4ff534f5d647b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccb70bafa25a25c428e16fe998954ae7, type: 2}
   m_IsPrefabAsset: 0
