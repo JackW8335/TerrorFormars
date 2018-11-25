@@ -9,8 +9,8 @@ public class LevelGeneration : MonoBehaviour
     public int numFloors = 3;
     public int MaxObj = 11;
 
-     int branchMax = 4;
-     int branchMin = 0;
+     int branchMax = 3;
+     int branchMin = 1;
 
     public GameObject[] caves;
     public GameObject[] startObjects;
@@ -117,7 +117,7 @@ public class LevelGeneration : MonoBehaviour
     GameObject pickObjectToMake()
     {
         float chance = Random.Range(0.0f,1.0f);
-        if (chance > 0.3)
+        if (chance > 0.4)
         {
             return tunnels[0];
         }
@@ -182,30 +182,6 @@ public class LevelGeneration : MonoBehaviour
                 break;
         }
         return nextRot;
-       /*
-        Vector3 nextRot = new Vector3(0, 0, 0);
-        switch (doorNum)
-        {
-            //Bottom
-            case 0:
-                nextRot = new Vector3(0, 270, 0);
-                break;
-            //Right
-            case 1:
-                nextRot = new Vector3(0, 180, 0);
-                break;
-            //Left
-            case 2:
-                nextRot = new Vector3(0, 0, 0);
-               break;
-            //Top
-            case 3:
-                nextRot = new Vector3(0, 90, 0);
-               break;
-        }
-        return nextRot;
-        */
-        
     }
 
 
@@ -238,10 +214,10 @@ public class LevelGeneration : MonoBehaviour
             
 
             nextRot = lastPrefab.transform.eulerAngles;
-            float lastPrefabEdge = LastEnd.x;
+            float lastPrefabEdge = LastEnd.z;
 
-            float spawnPos = LastEnd.x + ModelRadius;
-            startPos = new Vector3(spawnPos, LastEnd.y, 0);     
+            float spawnPos = LastEnd.z + ModelRadius;
+            startPos = new Vector3(0, LastEnd.y, spawnPos);     
         }
          GameObject nextObj = Instantiate(nextObjPrefab, startPos, Quaternion.identity);
          nextObj.transform.parent = transform;
