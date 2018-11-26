@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Vector3 move;
 
+    private bool submerged;
+    private bool emerged;
     
     private Camera mainCam;
     private Vector3 camF;
@@ -89,16 +91,24 @@ public class Player : MonoBehaviour
 
         anim.SetFloat("Vertical", v);
         anim.SetFloat("Horizontal", h);
-  
+
         if(anim.GetBool("Swimming"))
         {
-            anim.SetBool("InSwim", true);
+            anim.SetBool("InSwim",true);
         }
-
         if (IsInWater)
         {
             if (isUnderWater())
             {
+                if (!submerged)
+                {
+                    Submerge();
+                    submerged = true;
+                }
+                else if(submerged)
+                {
+                    WaterAmbient();
+                }
                 anim.SetBool("Swimming", true);
                 rb.drag = 3.0f;
                 Dive(v, h);
@@ -127,18 +137,26 @@ public class Player : MonoBehaviour
             else
             {
                 anim.SetBool("Swimming", false);
-                anim.SetBool("InSwim", false);
-                setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
+                submerged = false;
+                setRenderDefault();
+
+                if (!emerged)
+                {
+                    Emerge();
+                    emerged = true;
+                }
+
             }
         }
         else
         {
+            setRenderDefault();
+            anim.SetBool("Swimming", false);
             Movement(h, v);
             setDirection(h, v);
-            anim.SetBool("Swimming", false);
-            anim.SetBool("InSwim", false);
+
         }
         if (Input.GetButtonDown("Taunt"))
         {
@@ -398,8 +416,43 @@ public class Player : MonoBehaviour
         {
             IsInWater = true;
             waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
+            
         }
 
+    }
+
+    void PlayerAudio(float pitch, float volume, int clip, float time)
+    {
+        audioManager.GetComponent<AudioScript>().audioSource.pitch = pitch;
+        audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
+        audioManager.GetComponent<AudioScript>().setAudio(clips[clip]);
+        audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
+        audioManager.GetComponent<AudioScript>().audioSource.loop = false;
+        audioManager.GetComponent<AudioScript>().audioSource.Play();
+    }
+
+    void Submerge()
+    {
+        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        {
+            PlayerAudio(1.0f, 1.0f, 3, 0.0f);
+        }
+    }
+
+    void WaterAmbient()
+    {
+        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        {
+            PlayerAudio(1.0f, 1.0f, 4, 0.0f);
+        }
+    }
+
+    void Emerge()
+    {
+        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        {
+            PlayerAudio(1.0f, 1.0f, 5, 0.0f);
+        }
     }
 
     private void OnTriggerExit(Collider other)

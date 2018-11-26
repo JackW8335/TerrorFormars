@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -322,11 +322,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34c8971a3a6264e4c80f888c20f5f415, type: 3}
   m_IsPrefabAsset: 0
---- !u!1 &171909218 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1555399987461396, guid: 8d399842e56fbbe4b82b0d19455f42bf,
-    type: 2}
-  m_PrefabInternal: {fileID: 42942129}
 --- !u!4 &353165474 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4239458439500724, guid: 8d399842e56fbbe4b82b0d19455f42bf,
@@ -1065,6 +1060,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc723164fcb3394489548dfd87d02024, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1094236842 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1678304734726084, guid: 395991952bea97444a170b418dc3199e,
+    type: 2}
+  m_PrefabInternal: {fileID: 1223986036}
 --- !u!1 &1142149132
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,6 +1194,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114776893526562608, guid: 395991952bea97444a170b418dc3199e,
+        type: 2}
+      propertyPath: clips.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: fa6cba83a4316904f9489e7d058b2c15, type: 3}
+    - target: {fileID: 114776893526562608, guid: 395991952bea97444a170b418dc3199e,
+        type: 2}
+      propertyPath: clips.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9e84cf1605911b74a9d9449e0ca50f3b, type: 3}
+    - target: {fileID: 114776893526562608, guid: 395991952bea97444a170b418dc3199e,
+        type: 2}
+      propertyPath: clips.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: fd5a93f5276cd3a41ac9fff9e4c1aa1a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 395991952bea97444a170b418dc3199e, type: 2}
   m_IsPrefabAsset: 0
@@ -1785,8 +1800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae59d4981e27224fbb0a31779f6db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterRiseingRate: 0.1
-  playerObj: {fileID: 171909218}
+  waterRiseingRate: 0.5
+  playerObj: {fileID: 1094236842}
   HeightTolearnce: 5
 --- !u!1 &1932458872
 GameObject:
