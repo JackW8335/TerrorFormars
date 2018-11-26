@@ -145,11 +145,14 @@ public class Player : MonoBehaviour
             setDirection(h, v);
             anim.SetBool("Swimming", false);
             anim.SetBool("InSwim", false);
+
+            if (Input.GetButtonDown("Taunt"))
+            {
+                Taunt();
+            }
+
         }
-        if (Input.GetButtonDown("Taunt"))
-        {
-            Taunt();
-        }
+        
 
         if (oxygen <= 0)
         {
@@ -337,6 +340,7 @@ public class Player : MonoBehaviour
 
     void Taunt()
     {
+        anim.SetBool("Throw", true);
         //if (oxygen > 25)
         //{
         //    GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
