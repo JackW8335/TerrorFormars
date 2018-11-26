@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     public Image deathFade;
     public bool canCarry = true;
     private float fadeCounter = 0;
+    private bool alive = true;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -95,6 +96,11 @@ public class Player : MonoBehaviour
         if(anim.GetBool("Swimming"))
         {
             anim.SetBool("InSwim", true);
+        }
+
+        if (anim.GetBool("Dead"))
+        {
+            anim.SetBool("InDead", true);
         }
 
         if (IsInWater)
@@ -370,16 +376,15 @@ public class Player : MonoBehaviour
         //}
         //deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
 
-        StartCoroutine(Death());
-    }
-    private IEnumerator Death()
-    {
-        yield return new WaitForSeconds(10);
-        if (oxygen <= 0)
+        if (oxygen <= 0 && alive)
         {
-            //set death bool anim to true
+            anim.SetBool("Dead", true);
+            
+            alive = false;
         }
+
     }
+
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
