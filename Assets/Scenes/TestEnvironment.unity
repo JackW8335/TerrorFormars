@@ -120,21 +120,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: caves.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: tunnels.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: startObjects.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4257841745565440, guid: ccb70bafa25a25c428e16fe998954ae7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -165,54 +150,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4257841745565440, guid: ccb70bafa25a25c428e16fe998954ae7, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
-      propertyPath: startObjects.Array.data[0]
-      value: 
-      objectReference: {fileID: 1465925866048698, guid: edb96397fb2b0f34281166b1bbbf3f00,
-        type: 2}
+      propertyPath: maxBreakAble
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
-      propertyPath: caves.Array.data[0]
-      value: 
-      objectReference: {fileID: 1322098162440950, guid: 3ed71f245c2cd3c4da3b893d8beabd54,
-        type: 2}
+      propertyPath: BreakAbleChance
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
-      propertyPath: tunnels.Array.data[0]
-      value: 
-      objectReference: {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59,
-        type: 2}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: deadEnd
-      value: 
-      objectReference: {fileID: 1077368038866866, guid: 9392808b66484a54ca7a089fea65cb75,
-        type: 2}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: startObjects.Array.data[1]
-      value: 
-      objectReference: {fileID: 1465925866048698, guid: edb96397fb2b0f34281166b1bbbf3f00,
-        type: 2}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: startObjects.Array.data[2]
-      value: 
-      objectReference: {fileID: 1465925866048698, guid: edb96397fb2b0f34281166b1bbbf3f00,
-        type: 2}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: oxygenTank
-      value: 
-      objectReference: {fileID: 1499256957908588, guid: 46b242d90d844154397b9f23a6203b57,
-        type: 2}
-    - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
-        type: 2}
-      propertyPath: maxFloorTanks
-      value: 3
+      propertyPath: Min
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccb70bafa25a25c428e16fe998954ae7, type: 2}
@@ -254,7 +207,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4879189375158562, guid: 0ece375093c1ae943a5f50f9c56052fb, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114577659542102554, guid: 0ece375093c1ae943a5f50f9c56052fb,
         type: 2}
@@ -306,58 +259,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 395991952bea97444a170b418dc3199e, type: 2}
   m_IsPrefabAsset: 0
---- !u!1 &1421964584
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1421964586}
-  - component: {fileID: 1421964585}
-  m_Layer: 0
-  m_Name: CaveSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1421964585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1421964584}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43940985da7ea064f998da1fa5c9237c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  caves:
-  - {fileID: 1178300716368190, guid: 876d0f23481fa9d40aa1a111f9f59b42, type: 2}
-  tunnels:
-  - {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59, type: 2}
-  - {fileID: 1192020941202298, guid: 1a45a140c882e8d45aacabdda304a390, type: 2}
-  - {fileID: 1754665150982476, guid: 66d3a1be1d6e83e4ea296b3f493b0b03, type: 2}
-  - {fileID: 1860511555685442, guid: 389537e503d72d543977378cdb347d27, type: 2}
-  transitionObjects:
-  - {fileID: 1754665150982476, guid: 66d3a1be1d6e83e4ea296b3f493b0b03, type: 2}
-  - {fileID: 1860511555685442, guid: 389537e503d72d543977378cdb347d27, type: 2}
-  generationSize: 25
-  floorCount: 3
---- !u!4 &1421964586
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1421964584}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2038892393 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1396159908520432, guid: 395991952bea97444a170b418dc3199e,
