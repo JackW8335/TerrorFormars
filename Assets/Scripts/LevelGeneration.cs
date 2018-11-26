@@ -103,44 +103,53 @@ public class LevelGeneration : MonoBehaviour
         }
         else
         {
-            
+
             for (int i = 0; i <= branchLength; i++)
             {
                 Vector3 Spawn = new Vector3(0, 0, 0);
                 Spawn = placeObject(doorNum, Door);
 
-                if (canPlace(Spawn))//&& currentFloor.Count < MaxObj
+
+                GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
+                newObject.transform.parent = transform;
+                newObject.transform.eulerAngles = Door.eulerAngles;
+                newObject.transform.GetChild(0).tag = "closedDoor";
+
+                if (!canPlace(newObject))//&& currentFloor.Count < MaxObj
                 {
-                    GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
-                    newObject.transform.parent = transform;
-                    newObject.transform.eulerAngles = Door.eulerAngles;
-                    newObject.transform.GetChild(0).tag = "closedDoor";
-
-                    fullCaveRoute.Add(newObject);
-                    currentFloor.Add(newObject);
-
-
-                    if (newObject.tag == "cave")
-                    {
-                        Door = newObject.transform.GetChild(3);
-                        Door.tag = "closedDoor";
-                        nextObject = tunnels[0];
-                        StartCoroutine(branchOffCave(FloorNum, newObject));
-                    }
-                    else
-                    {
-                        Door = newObject.transform.GetChild(1);// get exit
-                        Door.tag = "closedDoor";
-                        nextObject = pickObjectToMake();
-                    }
+                    Destroy(newObject);
+                    EndPath(Door);
+                    continue;
                 }
+                
+
+                fullCaveRoute.Add(newObject);
+                currentFloor.Add(newObject);
+
+
+                if (newObject.tag == "cave")
+                {
+                    Door = newObject.transform.GetChild(3);
+                    Door.tag = "closedDoor";
+                    nextObject = tunnels[0];
+                    StartCoroutine(branchOffCave(FloorNum, newObject));
+                }
+                else
+                {
+                    Door = newObject.transform.GetChild(1);// get exit
+                    Door.tag = "closedDoor";
+                    nextObject = pickObjectToMake();
+                }
+
+                
 
                 currentExitRouteCount++;
             }
         }
-        GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
-        DeadEnd.transform.parent = transform;
-        DeadEnd.transform.eulerAngles = Door.eulerAngles;
+        //GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
+        //DeadEnd.transform.parent = transform;
+        //DeadEnd.transform.eulerAngles = Door.eulerAngles;
+        EndPath(Door);
     }
 
     GameObject pickObjectToMake()
@@ -153,7 +162,12 @@ public class LevelGeneration : MonoBehaviour
         return caves[0];
     }
 
-
+    void EndPath(Transform Door)
+    {
+        GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
+        DeadEnd.transform.parent = transform;
+        DeadEnd.transform.eulerAngles = Door.eulerAngles;
+    }
 
     Vector3 placeObject(int doorNum, Transform Door)
     {
@@ -214,18 +228,38 @@ public class LevelGeneration : MonoBehaviour
     }
 
 
-
-    bool canPlace(Vector3 nwObj)
+    bool canPlace(GameObject nwObject)
     {
-        foreach(GameObject obj in currentFloor)
+        Vector3 objec1Pos = nwObject.transform.position;
+        Vector3 object1Scale = nwObject.transform.localScale;
+        foreach (GameObject obj in currentFloor)
         {
-            if(obj.transform.position == nwObj)
+            Vector3 object2Pos = obj.transform.position;
+            Vector3 object2Scale = obj.transform.localScale;
+            if(obj.name == "NwStartCave(Clone)")
+            {
+                object2Pos = obj.transform.GetChild(3).position;
+                object2Scale = obj.transform.GetChild(3).localScale;
+            }
+
+            if (objec1Pos.x < object2Pos.x + object2Scale.x &&
+                objec1Pos.x + object1Scale.x > object2Pos.x &&
+                objec1Pos.y < object2Pos.y + object2Scale.y &&
+                objec1Pos.y + object1Scale.y > object2Pos.y &&
+                objec1Pos.z < object2Pos.z + object2Scale.z &&
+                objec1Pos.z + object1Scale.z > object2Pos.z)
             {
                 return false;
             }
+            //if(obj.transform.position == nwObj)
+            //{
+            //return false;
+            //}
+
         }
         return true;
     }
+
 
      GameObject PlaceStartRoom(int nextObjID, GameObject nextObjPrefab, bool firstCave)
      {
