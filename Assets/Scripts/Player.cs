@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     [Header("Other")]
     public GameObject oxygenTank;
     public Image deathFade;
+    public bool canCarry = true;
     private float fadeCounter = 0;
     private bool alive = true;
 
@@ -155,6 +156,15 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("Taunt"))
             {
                 Taunt();
+            }
+            if (Input.GetButtonDown("Throw"))
+            {
+                anim.SetBool("Throw", true);
+                StartCoroutine("launchAirCanister");
+            }
+            else
+            {
+                anim.SetBool("Throw", false);
             }
 
         }
@@ -430,5 +440,18 @@ public class Player : MonoBehaviour
             waterSurfacePosY = 0.0f;
 
         }
+    }
+
+    private IEnumerator launchAirCanister()
+    {
+
+        yield return new WaitForSeconds(1.5f);
+        canCarry = true;
+        GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
+
+        obj.transform.parent = null;
+        obj.AddComponent<Rigidbody>();
+        obj.GetComponent<Rigidbody>().AddForce(this.transform.forward*10, ForceMode.Impulse);
+
     }
 }
