@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+           // deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
         }
         //GetOxygen();
     }
@@ -187,10 +187,6 @@ public class Player : MonoBehaviour
             anim.SetBool("Running", true);
             running = true;
             tempo = 1.5f;
-            //if (anim.GetBool("Swimming"))
-            //{
-            //    anim.speed = 5;
-            //}
         }
         else
         {
@@ -198,10 +194,6 @@ public class Player : MonoBehaviour
             anim.SetBool("Running", false);
             running = false;
             tempo = 0.9f;
-            //if (anim.GetBool("Swimming"))
-            //{
-            //    anim.speed = 3;
-            //}
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
@@ -339,24 +331,24 @@ public class Player : MonoBehaviour
 
     void Taunt()
     {
-        if (oxygen > 25)
-        {
-            GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
-            //OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
-            OT.GetComponent<Rigidbody>().velocity = transform.TransformDirection(Vector3.forward * 5);
-            OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
-            oxygen -= 25;
-        }
+        //if (oxygen > 25)
+        //{
+        //    GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
+        //    //OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
+
+        //    OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
+        //    oxygen -= 25;
+        //}
 
     }
 
     private void Dying()
     {
-        if (fadeCounter <= 0.8f)
-        {
-            fadeCounter += 0.005f;
-        }
-        deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
+        //if (fadeCounter <= 0.8f)
+        //{
+        //    fadeCounter += 0.005f;
+        //}
+        //deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
 
         StartCoroutine(Death());
     }
