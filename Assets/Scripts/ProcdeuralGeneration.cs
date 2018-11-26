@@ -6,41 +6,45 @@ public class ProcdeuralGeneration : MonoBehaviour
 {
     public GameObject[] caves;
 
-    public GameObject[] tunels;
+    public GameObject[] tunnels;
+
+    public GameObject[] transitionObjects;
 
     List<GameObject> currentRoute;
 
-    public Vector3 currentPrefabPos;
     private float spawnPos = 0;
 
     private int tunelGap = 3;
 
     public int generationSize = 15;
+    public int floorCount = 1;
 
     bool generateTunel = false;
-    //private Vector3 nextPrefabPos;
 
 
     // Use this for initialization
     void Start ()
     {
-        currentPrefabPos = new Vector3(0, 0, 0);
         currentRoute = new List<GameObject>();
-        // nextPrefabPos = new Vector3(0, 0, 0);
        
         MainGeneration();
 	}
 	
 	void MainGeneration()
     {
+        // First loop through number of floors
+        //then for each floor, run the generateRooms function
+        //for (int i = 0; i < floorCount; i++)
+        //{
+        //    generateRooms();
+        //}
 
-        Random.seed = Random.Range(0, 1000);
         int tunelChance = 0;
 
         for (int i = 0; i < generationSize; i++)
         {
             //Reset tunelchance to 0 if a tunel is spawned
-            if(TunelChance(tunelChance))
+            if (TunelChance(tunelChance))
             {
                 tunelChance = 0;
             }
@@ -52,77 +56,47 @@ public class ProcdeuralGeneration : MonoBehaviour
             //Generate cave or tunel
             if (!generateTunel)
             {
-                currentRoute.Add(GenerateCave(i, Random.Range(0, caves.Length)));
+                currentRoute.Add(PlaceObject(i, caves[Random.Range(0, caves.Length)]));
             }
             else
             {
-                currentRoute.Add(GenerateCave(i, Random.Range(0, 1)));
-                
+                currentRoute.Add(PlaceObject(i, tunnels[Random.Range(0, tunnels.Length)]));
+
             }
         }
 
     }
 
-    GameObject GenerateCave(int routePos, int size)
+    GameObject PlaceObject(int nextObjID, GameObject nextObjPrefab)
     {
-       
         Vector3 nextPrefabPos = new Vector3(0, 0, 0);
+        Quaternion nextRot = new Quaternion(0, 0, 0, 0); 
+        spawnPos = 0;
 
-        //BoxCollider prefabColl = caves[size].GetComponent<BoxCollider>();
-        //nextPrefabPos.x += (prefabColl.size.x * caves[size].transform.localScale.x);
-
-        if (routePos > 0)
+        if (nextObjID > 0)
         {
-            BoxCollider prefabColl;
+            GameObject lastPrefab = currentRoute[nextObjID - 1];
 
-            GameObject lastPrefab = currentRoute[routePos-1];
-
-            BoxCollider lastPrefabColl = lastPrefab.GetComponent<BoxCollider>();
-
-            //Check between tunel or cave piece
-            if (!generateTunel)
-            {
-                prefabColl = caves[size].GetComponent<BoxCollider>();
-            }
-            else
-            {
-                prefabColl = tunels[size].GetComponent<BoxCollider>();
-            }
+            Vector3 LastEnd = lastPrefab.transform.GetChild(1).transform.position;
+            nextRot = lastPrefab.transform.rotation;
 
             //Edge of last spawned piece
-            float lastPrefabEdge = lastPrefab.transform.position.x + ((lastPrefabColl.size.x * lastPrefab.transform.localScale.x) / 2);
+            float lastPrefabEdge = LastEnd.x;
 
-            //If cave get cave size, else get tunel size for spawnpos
-            if (!generateTunel)
-            {
-                spawnPos = lastPrefabEdge + ((prefabColl.size.x * caves[size].transform.localScale.x) / 2);
-            }
-            else
-            {
-                spawnPos = lastPrefabEdge + ((prefabColl.size.x * tunels[size].transform.localScale.x) / 2);
-            }
+            Vector3 currentStartPoint = nextObjPrefab.transform.GetChild(0).transform.position;
+            Vector3 currentEndPoint = nextObjPrefab.transform.GetChild(1).transform.position;
 
-            Debug.Log("fuck you alex");
+            // calculaion to get spawn postion
+
+            float R = Vector3.Distance(currentStartPoint, currentEndPoint)/2;
+            spawnPos = LastEnd.x + R;
         }
 
-
-
-
-        if (!generateTunel)
-        {
-            GameObject cave = Instantiate(caves[size], new Vector3(spawnPos, 0, 0), Quaternion.identity);
-            cave.transform.parent = transform;
-            return cave;
-        }
-        else
-        {
-            GameObject tunel = Instantiate(tunels[size], new Vector3(spawnPos, 0, 0), Quaternion.identity);
-            tunel.transform.parent = transform;
-            generateTunel = false;
-            return tunel;
-        }
-
-       
+        GameObject nextObj = Instantiate(nextObjPrefab, new Vector3(spawnPos, 0, 0), Quaternion.identity);
+        nextObj.transform.parent = transform;
+        nextObj.transform.eulerAngles = new Vector3(0, 90, 0);
+        generateTunel = false;
+        return nextObj;
     }
 
 
@@ -142,7 +116,7 @@ public class ProcdeuralGeneration : MonoBehaviour
         //10% chance
         else if(chance == 1)
         {
-            if(randValue < 10)
+            if(randValue < 30)
             {
                 generateTunel = true;
                 return true;

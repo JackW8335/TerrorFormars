@@ -29,7 +29,6 @@ public class CaveBehaviour : MonoBehaviour
 
     void HazardCheck()
     {
-        Random.seed = Random.Range(0, 1000);
         float randValue = Random.Range(0, 100);
 
         if(randValue < 25)
