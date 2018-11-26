@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     float rotSpeed = 50;
     private float swimmingAngle = 0;
 
+    public Transform body;
     public Transform head;
 
     [Range(0.5f, 3.0f)]
@@ -123,6 +124,11 @@ public class Player : MonoBehaviour
                                   Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
                     swimmingAngle = transform.rotation.x;
                 }
+            }
+            else if(ExitingWater())
+            {
+                rb.drag = 3.0f;
+                Dive(v, h);
             }
             else
             {
@@ -363,6 +369,11 @@ public class Player : MonoBehaviour
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
+    }
+
+    bool ExitingWater()
+    {
+        return body.position.y < (waterSurfacePosY);
     }
 
     void setRenderDive()
