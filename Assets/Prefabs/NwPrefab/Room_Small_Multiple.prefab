@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4524425554894856}
   - component: {fileID: 33750577112426336}
   - component: {fileID: 23785600383795870}
+  - component: {fileID: 64448716136838176}
   m_Layer: 0
   m_Name: Room_Small_Multiple
   m_TagString: cave
@@ -198,4 +199,18 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322098162440950}
+  m_Mesh: {fileID: 4300000, guid: 15b4e3d7c325bd049b2550092013d6bc, type: 3}
+--- !u!64 &64448716136838176
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322098162440950}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 15b4e3d7c325bd049b2550092013d6bc, type: 3}

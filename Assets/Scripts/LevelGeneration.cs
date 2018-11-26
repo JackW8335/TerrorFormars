@@ -11,8 +11,8 @@ public class LevelGeneration : MonoBehaviour
     public int startRoomMaxBranch = 0;  //each start room's exit will assign a random value to this which wil decide how far that branch goes in total
     public int currentExitRouteCount = 0;
 
-    int branchMax = 4;
-    int branchMin = 2;
+    int branchMax = 3;
+    int branchMin = 1;
 
     public GameObject[] caves;
     public GameObject[] startObjects;
@@ -42,6 +42,7 @@ public class LevelGeneration : MonoBehaviour
         {
             GenerateFloor(i);
         }
+        EndAllPaths();
     }
 
     void GenerateFloor(int FloorNum)
@@ -58,12 +59,16 @@ public class LevelGeneration : MonoBehaviour
 
     IEnumerator branchOffCave(int FloorNum, GameObject Cave)
     {
-        bool startCave = false;
-        if (currentFloor.Count == 1)
+        bool startCave;
+
+        if (currentFloor.Count > 1)
+        {
+            startCave = false;
+        }
+        else
         {
             startCave = true;
         }
-
         for (int i = 0; i < Cave.transform.childCount; i++)
         {
             Transform caveDoor = Cave.transform.GetChild(i);
@@ -77,78 +82,135 @@ public class LevelGeneration : MonoBehaviour
                         caveDoor.tag = "closedDoor";
                         continue;
                     }
-                    startRoomMaxBranch = (int)Random.Range(2, 3);  //sets how many rooms will made from this start room's exit
+                    startRoomMaxBranch = (int)Random.Range(0,7);  //sets how many rooms will made from this start room's exit
+                    currentExitRouteCount = 0;
                     Debug.Log(FloorNum + " " + startRoomMaxBranch);
                 }
 
                 int branchLength = Random.Range(branchMin, branchMax);
-
+                //if (currentExitRouteCount < startRoomMaxBranch)
+                //{
                 GenerateBranch(FloorNum, branchLength, i, tunnels[0], caveDoor);
+                int doorNum = i;
+                GameObject nextObject = tunnels[0];
+                Transform Door = caveDoor;
+                Door.tag = "closedDoor";
+
+
+                for (int j = 0; startRoomMaxBranch > 0; j++)
+                {
+                    Vector3 Spawn = new Vector3(0, 0, 0);
+                    Spawn = placeObject(doorNum, Door);
+
+
+                    GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
+                    newObject.transform.parent = transform;
+                    newObject.transform.eulerAngles = Door.eulerAngles;
+                    newObject.transform.GetChild(0).tag = "closedDoor";
+                    newObject.name = startRoomMaxBranch.ToString();
+
+                    if (!canPlace(newObject))//&& currentFloor.Count < MaxObj
+                    {
+                        Destroy(newObject);
+                        continue;
+                    }
+
+                    fullCaveRoute.Add(newObject);
+                    currentFloor.Add(newObject);
+                    //currentExitRouteCount++;
+                    startRoomMaxBranch--;
+
+                    if (newObject.tag == "cave")
+                    {
+                        spawnTank(newObject.transform);
+                        Door = newObject.transform.GetChild(3);
+                        if (j < startRoomMaxBranch)
+                        {
+                            Door.tag = "closedDoor";
+                        }
+                        nextObject = tunnels[0];
+                        StartCoroutine(branchOffCave(FloorNum, newObject));
+                    }
+                    else
+                    {
+                        Door = newObject.transform.GetChild(1);// get exit
+                        if (j < startRoomMaxBranch)
+                        {
+                            Door.tag = "closedDoor";
+                        }
+                        nextObject = pickObjectToMake();
+                    }
+
+                }
+
+                //}
+                //else
+                //{
+                //    return;
+                //}
             }
         }
-        yield return null;
+        yield return null ;
     }
 
     void GenerateBranch(int FloorNum, int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
     {
-        GameObject nextObject = StartObject;
-        Transform Door = StartDoor;
-        Door.tag = "closedDoor";
-        if (currentExitRouteCount >= startRoomMaxBranch)
-        {
-            currentExitRouteCount = 0;
-            return;
-        }
-        else
-        {
+        //GameObject nextObject = StartObject;
+        //Transform Door = StartDoor;
+        //Door.tag = "closedDoor";
 
-            for (int i = 0; i <= branchLength; i++)
-            {
-                Vector3 Spawn = new Vector3(0, 0, 0);
-                Spawn = placeObject(doorNum, Door);
+        //for (int i = 0; i <= startRoomMaxBranch; i++)
+        //{
+        //    Vector3 Spawn = new Vector3(0, 0, 0);
+        //    Spawn = placeObject(doorNum, Door);
 
 
-                GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
-                newObject.transform.parent = transform;
-                newObject.transform.eulerAngles = Door.eulerAngles;
-                newObject.transform.GetChild(0).tag = "closedDoor";
+        //    GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
+        //    newObject.transform.parent = transform;
+        //    newObject.transform.eulerAngles = Door.eulerAngles;
+        //    newObject.transform.GetChild(0).tag = "closedDoor";
 
-                if (!canPlace(newObject))//&& currentFloor.Count < MaxObj
-                {
-                    Destroy(newObject);
-                    EndPath(Door);
-                    continue;
-                }
+        //    if (!canPlace(newObject))//&& currentFloor.Count < MaxObj
+        //    {
+        //        Destroy(newObject);
+        //        continue;
+        //    }
 
+        //    fullCaveRoute.Add(newObject);
+        //    currentFloor.Add(newObject);
+        //    //currentExitRouteCount++;
+        //    startRoomMaxBranch--;
 
-                fullCaveRoute.Add(newObject);
-                currentFloor.Add(newObject);
+        //    if (newObject.tag == "cave")
+        //    {
+        //        spawnTank(newObject.transform);
+        //        Door = newObject.transform.GetChild(3);
+        //        if (startRoomMaxBranch < branchLength)
+        //        {
+        //            Door.tag = "closedDoor";
+        //        }
+        //        nextObject = tunnels[0];
+        //        branchOffCave(FloorNum, newObject);
+        //    }
+        //    else
+        //    {
+        //        Door = newObject.transform.GetChild(1);// get exit
+        //        if (startRoomMaxBranch < branchLength)
+        //        {
+        //            Door.tag = "closedDoor";
+        //        }
+        //        nextObject = pickObjectToMake();
+        //    }
 
+        //}
 
-                if (newObject.tag == "cave")
-                {
-                    spawnTank(newObject.transform);
-                    Door = newObject.transform.GetChild(3);
-                    Door.tag = "closedDoor";
-                    nextObject = tunnels[0];
-                    StartCoroutine(branchOffCave(FloorNum, newObject));
-                }
-                else
-                {
-                    Door = newObject.transform.GetChild(1);// get exit
-                    Door.tag = "closedDoor";
-                    nextObject = pickObjectToMake();
-                }
-                currentExitRouteCount++;
-            }
-        }
-        EndPath(Door);
+       
     }
 
     GameObject pickObjectToMake()
     {
         float chance = Random.Range(0.0f, 1.0f);
-        if (chance > 0.5)
+        if (chance > 0.6)
         {
             return tunnels[0];
         }
@@ -173,8 +235,24 @@ public class LevelGeneration : MonoBehaviour
     void EndPath(Transform Door)
     {
         GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
-        DeadEnd.transform.parent = transform;
+        DeadEnd.transform.parent = Door;
         DeadEnd.transform.eulerAngles = Door.eulerAngles;
+    }
+
+    void EndAllPaths()
+    {
+        foreach (GameObject obj in fullCaveRoute)
+        {
+            for (int i = 0; i < obj.transform.childCount; i++)
+            {
+                GameObject door = obj.transform.GetChild(i).gameObject;
+                if(door.tag == "openDoor")
+                {
+                    EndPath(door.transform);
+                }
+             }
+
+        }
     }
 
     Vector3 placeObject(int doorNum, Transform Door)
@@ -244,11 +322,6 @@ public class LevelGeneration : MonoBehaviour
         {
             Vector3 object2Pos = obj.transform.position;
             Vector3 object2Scale = obj.transform.localScale;
-            if(obj.name == "StartRoom(Clone)")
-            {
-                object2Pos = obj.transform.GetChild(3).position;
-                object2Scale = obj.transform.GetChild(3).localScale;
-            }
 
             if (objec1Pos.x < object2Pos.x + object2Scale.x &&
                 objec1Pos.x + object1Scale.x > object2Pos.x &&
@@ -258,6 +331,21 @@ public class LevelGeneration : MonoBehaviour
                 objec1Pos.z + object1Scale.z > object2Pos.z)
             {
                 return false;
+            }
+
+            if (obj.name == "StartRoom(Clone)")
+            {
+                object2Pos = obj.transform.GetChild(3).position;
+                object2Scale = obj.transform.GetChild(3).localScale;
+                if (objec1Pos.x < object2Pos.x + object2Scale.x &&
+               objec1Pos.x + object1Scale.x > object2Pos.x &&
+               objec1Pos.y < object2Pos.y + object2Scale.y &&
+               objec1Pos.y + object1Scale.y > object2Pos.y &&
+               objec1Pos.z < object2Pos.z + object2Scale.z &&
+               objec1Pos.z + object1Scale.z > object2Pos.z)
+                {
+                    return false;
+                }
             }
             //if(obj.transform.position == nwObj)
             //{
