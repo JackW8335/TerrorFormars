@@ -11,8 +11,8 @@ public class LevelGeneration : MonoBehaviour
     public int startRoomMaxBranch = 0;  //each start room's exit will assign a random value to this which wil decide how far that branch goes in total
     public int currentExitRouteCount = 0;
 
-     int branchMax = 3;
-     int branchMin = 1;
+    int branchMax = 4;
+    int branchMin = 2;
 
     public GameObject[] caves;
     public GameObject[] startObjects;
@@ -21,7 +21,7 @@ public class LevelGeneration : MonoBehaviour
     public GameObject deadEnd;
     public GameObject oxygenTank;
     public int maxFloorTanks;
-    int currentTanks
+    int currentTanks;
     List<GameObject> fullCaveRoute;
     List<GameObject> currentFloor;
     private readonly float ModelRadius = 4.9965f;
@@ -31,7 +31,7 @@ public class LevelGeneration : MonoBehaviour
     {
         fullCaveRoute = new List<GameObject>();
         currentFloor = new List<GameObject>();
-        
+
 
         MainGeneration();
     }
@@ -77,27 +77,19 @@ public class LevelGeneration : MonoBehaviour
                         caveDoor.tag = "closedDoor";
                         continue;
                     }
-                    startRoomMaxBranch = (int)Random.Range(2, 5);  //sets how many rooms will made from this start room's exit
+                    startRoomMaxBranch = (int)Random.Range(2, 3);  //sets how many rooms will made from this start room's exit
                     Debug.Log(FloorNum + " " + startRoomMaxBranch);
-                    //Call branching from here until startRoomMaxBranch is reched
-                    //for (int j = 0; j <= startRoomMaxBranch; j++)
-                  //  {
-                       // GenerateBranch(FloorNum, startRoomMaxBranch, i, tunnels[0], caveDoor);
-                        //Then add dead end room onto the end of current branch, may require a new list for the current branch
-                   // }
                 }
-
 
                 int branchLength = Random.Range(branchMin, branchMax);
 
                 GenerateBranch(FloorNum, branchLength, i, tunnels[0], caveDoor);
-
             }
         }
         yield return null;
     }
 
-    void GenerateBranch(int FloorNum,int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
+    void GenerateBranch(int FloorNum, int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
     {
         GameObject nextObject = StartObject;
         Transform Door = StartDoor;
@@ -105,6 +97,7 @@ public class LevelGeneration : MonoBehaviour
         if (currentExitRouteCount >= startRoomMaxBranch)
         {
             currentExitRouteCount = 0;
+            return;
         }
         else
         {
@@ -126,7 +119,7 @@ public class LevelGeneration : MonoBehaviour
                     EndPath(Door);
                     continue;
                 }
-                
+
 
                 fullCaveRoute.Add(newObject);
                 currentFloor.Add(newObject);
@@ -134,7 +127,7 @@ public class LevelGeneration : MonoBehaviour
 
                 if (newObject.tag == "cave")
                 {
-
+                    spawnTank(newObject.transform);
                     Door = newObject.transform.GetChild(3);
                     Door.tag = "closedDoor";
                     nextObject = tunnels[0];
@@ -146,22 +139,16 @@ public class LevelGeneration : MonoBehaviour
                     Door.tag = "closedDoor";
                     nextObject = pickObjectToMake();
                 }
-
-                
-
                 currentExitRouteCount++;
             }
         }
-        //GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
-        //DeadEnd.transform.parent = transform;
-        //DeadEnd.transform.eulerAngles = Door.eulerAngles;
         EndPath(Door);
     }
 
     GameObject pickObjectToMake()
     {
-        float chance = Random.Range(0.0f,1.0f);
-        if (chance > 0.4)
+        float chance = Random.Range(0.0f, 1.0f);
+        if (chance > 0.5)
         {
             return tunnels[0];
         }
@@ -171,16 +158,21 @@ public class LevelGeneration : MonoBehaviour
     void spawnTank(Transform cave)
     {
         float chance = Random.Range(0.0f, 1.0f);
-        if()
-        if (chance > 0.6)
+        if (currentTanks < maxFloorTanks)
         {
-             GameObject nwOxygen = Instantiate(oxygenTank,cave.position,Quaternion.identity())
+            if (chance > 0.6)
+            {
+                GameObject nwOxygen = Instantiate(oxygenTank, cave.position, Quaternion.identity);
+                currentTanks++;
+            }
+
         }
     }
 
+
     void EndPath(Transform Door)
     {
-        GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
+        GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
         DeadEnd.transform.parent = transform;
         DeadEnd.transform.eulerAngles = Door.eulerAngles;
     }
@@ -252,7 +244,7 @@ public class LevelGeneration : MonoBehaviour
         {
             Vector3 object2Pos = obj.transform.position;
             Vector3 object2Scale = obj.transform.localScale;
-            if(obj.name == "NwStartCave(Clone)")
+            if(obj.name == "StartRoom(Clone)")
             {
                 object2Pos = obj.transform.GetChild(3).position;
                 object2Scale = obj.transform.GetChild(3).localScale;
