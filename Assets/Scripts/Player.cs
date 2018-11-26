@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
     float rotSpeed = 50;
     private float swimmingAngle = 0;
 
+    public Transform body;
     public Transform head;
 
     [Range(0.5f, 3.0f)]
@@ -124,6 +125,11 @@ public class Player : MonoBehaviour
                     swimmingAngle = transform.rotation.x;
                 }
             }
+            else if(ExitingWater())
+            {
+                rb.drag = 3.0f;
+                Dive(v, h);
+            }
             else
             {
                 anim.SetBool("Swimming", false);
@@ -139,11 +145,14 @@ public class Player : MonoBehaviour
             setDirection(h, v);
             anim.SetBool("Swimming", false);
             anim.SetBool("InSwim", false);
+
+            if (Input.GetButtonDown("Taunt"))
+            {
+                Taunt();
+            }
+
         }
-        if (Input.GetButtonDown("Taunt"))
-        {
-            Taunt();
-        }
+        
 
         if (oxygen <= 0)
         {
@@ -331,6 +340,7 @@ public class Player : MonoBehaviour
 
     void Taunt()
     {
+        anim.SetBool("Throw", true);
         //if (oxygen > 25)
         //{
         //    GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
@@ -363,6 +373,11 @@ public class Player : MonoBehaviour
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
+    }
+
+    bool ExitingWater()
+    {
+        return body.position.y < (waterSurfacePosY);
     }
 
     void setRenderDive()
