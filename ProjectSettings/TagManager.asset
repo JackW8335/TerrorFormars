@@ -10,6 +10,8 @@ TagManager:
   - tunnel
   - openDoor
   - closedDoor
+  - Throwable
+  - Hand
   layers:
   - Default
   - TransparentFX
