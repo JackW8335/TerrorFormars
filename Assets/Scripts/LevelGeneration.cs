@@ -19,6 +19,9 @@ public class LevelGeneration : MonoBehaviour
 
     public GameObject[] tunnels;
     public GameObject deadEnd;
+    public GameObject oxygenTank;
+    public int maxFloorTanks;
+    int currentTanks
     List<GameObject> fullCaveRoute;
     List<GameObject> currentFloor;
     private readonly float ModelRadius = 4.9965f;
@@ -28,6 +31,7 @@ public class LevelGeneration : MonoBehaviour
     {
         fullCaveRoute = new List<GameObject>();
         currentFloor = new List<GameObject>();
+        
 
         MainGeneration();
     }
@@ -44,6 +48,7 @@ public class LevelGeneration : MonoBehaviour
     {
         GameObject FloorStart = PlaceStartRoom(FloorNum, startObjects[FloorNum], true);
         currentFloor.Clear();
+        currentTanks = 0;
         fullCaveRoute.Add(FloorStart);
         currentFloor.Add(FloorStart);
 
@@ -129,6 +134,7 @@ public class LevelGeneration : MonoBehaviour
 
                 if (newObject.tag == "cave")
                 {
+
                     Door = newObject.transform.GetChild(3);
                     Door.tag = "closedDoor";
                     nextObject = tunnels[0];
@@ -160,6 +166,16 @@ public class LevelGeneration : MonoBehaviour
             return tunnels[0];
         }
         return caves[0];
+    }
+
+    void spawnTank(Transform cave)
+    {
+        float chance = Random.Range(0.0f, 1.0f);
+        if()
+        if (chance > 0.6)
+        {
+             GameObject nwOxygen = Instantiate(oxygenTank,cave.position,Quaternion.identity())
+        }
     }
 
     void EndPath(Transform Door)
