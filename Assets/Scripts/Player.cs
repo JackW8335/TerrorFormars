@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
             speed = walkSpeed;
             anim.SetBool("Running", false);
             running = false;
-            tempo = 0.9f;
+            tempo = 1.2f;
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
