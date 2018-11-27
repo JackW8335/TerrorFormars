@@ -302,6 +302,10 @@ public class LevelGeneration : MonoBehaviour
     #region spawn tank
     void spawnTank(Transform cave,bool firstCave)
     {
+        if(!firstCave && cave.transform.position == new Vector3(0,0,0))
+        {
+            return;
+        }
         float chance = Random.Range(0.0f, 1.0f);
         if (currentTanks < maxTanks)
         {
