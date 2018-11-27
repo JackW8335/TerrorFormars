@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - StartPos
+  - EndPos
+  - cave
+  - tunnel
+  - openDoor
+  - closedDoor
+  - Throwable
+  - Hand
+  - OutSideBlocker
   layers:
   - Default
   - TransparentFX
@@ -14,8 +23,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
+  - Cave
+  - OutSideBlocker
   - 
   - 
   - 

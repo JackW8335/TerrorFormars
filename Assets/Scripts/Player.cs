@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
     float rotSpeed = 50;
     private float swimmingAngle = 0;
 
+    public Transform body;
     public Transform head;
 
     [Range(0.5f, 3.0f)]
@@ -61,7 +62,9 @@ public class Player : MonoBehaviour
     [Header("Other")]
     public GameObject oxygenTank;
     public Image deathFade;
+    public bool canCarry = true;
     private float fadeCounter = 0;
+    private bool alive = true;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -94,10 +97,16 @@ public class Player : MonoBehaviour
         anim.SetFloat("Vertical", v);
         anim.SetFloat("Horizontal", h);
 
-        if(anim.GetBool("Swimming"))
+        if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("Swimming.swimming"))
         {
-            anim.SetBool("InSwim",true);
+            anim.SetBool("StartedSwim", true);
         }
+
+        if (anim.GetBool("Dead"))
+        {
+            anim.SetBool("InDead", true);
+        }
+
         if (IsInWater)
         {
             if (isUnderWater())
@@ -137,9 +146,16 @@ public class Player : MonoBehaviour
                     swimmingAngle = transform.rotation.x;
                 }
             }
+            else if(ExitingWater())
+            {
+                rb.drag = 3.0f;
+                Dive(v, h);
+            }
             else
             {
                 anim.SetBool("Swimming", false);
+                anim.SetBool("StartedSwim", false);
+                setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
                 
@@ -160,11 +176,25 @@ public class Player : MonoBehaviour
             anim.SetBool("Swimming", false);
             Movement(h, v);
             setDirection(h, v);
+            anim.SetBool("Swimming", false);
+            anim.SetBool("StartedSwim", false);
+
+            if (Input.GetButtonDown("Taunt"))
+            {
+                Taunt();
+            }
+            if (Input.GetButtonDown("Throw"))
+            {
+                anim.SetBool("Throw", true);
+                StartCoroutine("launchAirCanister");
+            }
+            else
+            {
+                anim.SetBool("Throw", false);
+            }
+
         }
-        if (Input.GetButtonDown("Taunt"))
-        {
-            Taunt();
-        }
+        
 
         if (oxygen <= 0)
         {
@@ -352,6 +382,7 @@ public class Player : MonoBehaviour
 
     void Taunt()
     {
+        anim.SetBool("Throw", true);
         //if (oxygen > 25)
         //{
         //    GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
@@ -371,19 +402,23 @@ public class Player : MonoBehaviour
         //}
         //deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
 
-        StartCoroutine(Death());
-    }
-    private IEnumerator Death()
-    {
-        yield return new WaitForSeconds(10);
-        if (oxygen <= 0)
+        if (oxygen <= 0 && alive)
         {
-            //set death bool anim to true
+            anim.SetBool("Dead", true);
+            
+            alive = false;
         }
+
     }
+
     bool isUnderWater()
     {
         return head.position.y < (waterSurfacePosY);
+    }
+
+    bool ExitingWater()
+    {
+        return body.position.y < (waterSurfacePosY);
     }
 
     void setRenderDive()
@@ -461,5 +496,18 @@ public class Player : MonoBehaviour
             waterSurfacePosY = 0.0f;
 
         }
+    }
+
+    private IEnumerator launchAirCanister()
+    {
+
+        yield return new WaitForSeconds(1.5f);
+        canCarry = true;
+        GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
+
+        obj.transform.parent = null;
+        obj.AddComponent<Rigidbody>();
+        obj.GetComponent<Rigidbody>().AddForce(this.transform.forward*10, ForceMode.Impulse);
+
     }
 }
