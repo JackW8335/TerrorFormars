@@ -27,6 +27,13 @@ public class LevelGeneration : MonoBehaviour
     int currentTanks;
     public GameObject oxygenTank;
 
+    public int maxPlacementToExit;
+    public int minPlacementToExit;
+    public float exitChance = 0.6f; // how quickly to place a tunnel 
+    bool exitPlaced;
+    public GameObject exit;//blueprint
+    GameObject ExitObject;//actual
+
     List<GameObject> CaveSystem;
 
 
@@ -36,17 +43,51 @@ public class LevelGeneration : MonoBehaviour
         InilizeGenereation();
     }
 
-    void InilizeGenereation()
+    public void InilizeGenereation()
     {
+        exitPlaced = false;
         CaveSystem.Clear();
         currentTanks = 0;
         currentBreakAble = 0;
         MainGeneration();
         spawnAllTanks();
         EndAllPaths();
-        if(CaveSystem.Count < Min)
+        if (CaveSystem.Count < Min)
         {
             InilizeGenereation();
+        }
+
+        while(!exitPlaced)
+        {
+            // make sure there is always an exit 
+            makeSureISExit();
+        }
+        //Debug.Log("had exit not placed first time arund");
+       
+    }
+
+    void makeSureISExit()
+    {
+        int j = 0;
+        foreach (GameObject obj in CaveSystem)
+        {
+            if (!exitPlaced)
+            {
+                j++;
+               
+                if (obj.tag == "OutSideBlocker")
+                {
+                    float chance = Random.Range(0.0f, 1.0f);
+                    if (j >= minPlacementToExit && j <= maxPlacementToExit && exitChance > chance)
+                    {
+                        createExit(obj.transform);
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
         }
     }
 
@@ -60,7 +101,7 @@ public class LevelGeneration : MonoBehaviour
 
         currentTanks = 0;
         CaveSystem.Add(FloorStart);
-
+        spawnTank(FloorStart.transform, true);
         //gerate all tunnels off first object
         StartCoroutine(branchOffCave(FloorStart));
     }
@@ -112,7 +153,6 @@ public class LevelGeneration : MonoBehaviour
             placeBreakAbleWall(Door);
             if (newObject.tag == "cave")
             {
-                spawnTank(newObject.transform);
                 Door = newObject.transform.GetChild(3);
                 if (i < branchLength)
                 {
@@ -136,7 +176,7 @@ public class LevelGeneration : MonoBehaviour
     GameObject pickObjectToMake()
     {
         float chance = Random.Range(0.0f, 1.0f);
-        if (chance > tunnelChance)
+        if (tunnelChance > chance)
         {
             return tunnel;
         }
@@ -147,7 +187,7 @@ public class LevelGeneration : MonoBehaviour
     {
         // this hole system should be linked to oxygen 
         float chance = Random.Range(0.0f, 1.0f);
-        if (chance > BreakAbleChance)
+        if (BreakAbleChance > chance)
         {
             if(currentBreakAble < maxBreakAble)// this should never be higher then the number of oxygen tanks 
             {
@@ -260,12 +300,12 @@ public class LevelGeneration : MonoBehaviour
     #endregion
 
     #region spawn tank
-    void spawnTank(Transform cave)
+    void spawnTank(Transform cave,bool firstCave)
     {
         float chance = Random.Range(0.0f, 1.0f);
         if (currentTanks < maxTanks)
         {
-            if (chance > tankChance)
+            if (tankChance > chance || firstCave)
             {
                 GameObject nwOxygen = Instantiate(oxygenTank, cave.position, Quaternion.identity);
                 currentTanks++;
@@ -277,9 +317,9 @@ public class LevelGeneration : MonoBehaviour
     {
         foreach (GameObject obj in CaveSystem)
         {
-            if (LayerMask.LayerToName(obj.layer) == "cave")
+            if (obj.tag == "cave")
             {
-                spawnTank(obj.transform);
+                spawnTank(obj.transform,false);
             }
         }
     }
@@ -291,23 +331,47 @@ public class LevelGeneration : MonoBehaviour
         GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
         DeadEnd.transform.parent = Door;
         DeadEnd.transform.eulerAngles = Door.eulerAngles;
+        CaveSystem.Add(DeadEnd);
     }
 
     void EndAllPaths()
     {
-        foreach (GameObject obj in CaveSystem)
+        for (int j = 0; j < CaveSystem.Count; j++)
         {
+            GameObject obj = CaveSystem[j];
+
             for (int i = 0; i < obj.transform.childCount; i++)
             {
                 GameObject door = obj.transform.GetChild(i).gameObject;
-                if(door.tag == "openDoor")
+                if (door.tag == "openDoor")
                 {
-                    EndPath(door.transform);
-                }
-             }
 
+                    float chance = Random.Range(0.0f, 1.0f);
+                    if (j >= minPlacementToExit && j <= maxPlacementToExit && exitChance > chance && !exitPlaced)
+                    {
+                        createExit(door.transform);
+                    }
+                    else
+                    {
+                        EndPath(door.transform);
+                    }
+                    door.tag = "closedDoor";
+                }
+            }
         }
     }
+
+        #region spawn exit
+    void createExit(Transform Door)
+    {
+        ExitObject = Instantiate(exit, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
+        ExitObject.transform.parent = Door;
+        ExitObject.transform.eulerAngles = new Vector3(Door.eulerAngles.x, Door.eulerAngles.y*2, Door.eulerAngles.z);
+        CaveSystem.Add(ExitObject);
+        exitPlaced = true;
+    }
+
+        #endregion
     #endregion
 
 }
