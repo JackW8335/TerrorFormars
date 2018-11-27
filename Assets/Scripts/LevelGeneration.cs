@@ -368,9 +368,9 @@ public class LevelGeneration : MonoBehaviour
         #region spawn exit
     void createExit(Transform Door)
     {
-        ExitObject = Instantiate(exit, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
+        ExitObject = Instantiate(exit, new Vector3(Door.position.x, Door.position.y, Door.position.z), Quaternion.identity);
         ExitObject.transform.parent = Door;
-        ExitObject.transform.eulerAngles = new Vector3(Door.eulerAngles.x, Door.eulerAngles.y*2, Door.eulerAngles.z);
+        ExitObject.transform.eulerAngles = new Vector3(Door.eulerAngles.x, Door.eulerAngles.y, Door.eulerAngles.z);
         CaveSystem.Add(ExitObject);
         exitPlaced = true;
     }
