@@ -23,7 +23,7 @@ public class OxygenCanisterExplode : MonoBehaviour {
     {
         if (this.GetComponent<Rigidbody>() != null)
         {
-            if (thing.tag == "Blockable" || thing.tag == "cave" || thing.tag == "tunnel")//(thing != GameObject.FindGameObjectWithTag("Player"))
+            if (thing.tag == "Blockable" || thing.tag == "cave" || thing.tag == "tunnel" || thing.tag == "OutSideBlocker")//(thing != GameObject.FindGameObjectWithTag("Player"))
             {
                 Debug.Log(thing.name);
                 Instantiate(explosion, this.transform).transform.parent = null;

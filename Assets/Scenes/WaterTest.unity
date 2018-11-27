@@ -1025,7 +1025,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: bcae914220acd4907840a029bb9d9aec, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: bcae914220acd4907840a029bb9d9aec, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1229,6 +1229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae59d4981e27224fbb0a31779f6db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterRiseingRate: 0.02
+  waterRiseingRate: 0.01
   playerObj: {fileID: 161143181}
   HeightTolearnce: 5

@@ -74,7 +74,7 @@ public class FadeIntro : MonoBehaviour {
                 }
             case 4:
                 {
-                    SceneManager.LoadScene("TestTestThing");
+                    SceneManager.LoadScene("WaterTest");
                     break;
                 }
         }
