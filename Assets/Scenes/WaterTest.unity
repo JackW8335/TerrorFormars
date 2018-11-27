@@ -1218,7 +1218,7 @@ Prefab:
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
       propertyPath: maxBreakAble
-      value: 10
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
@@ -1245,7 +1245,7 @@ Prefab:
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
       propertyPath: BreakAbleChance
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
