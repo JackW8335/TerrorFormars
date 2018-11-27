@@ -51,5 +51,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd7eadf38963a94abec561fee20d43e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floorCount: 3
-  floorObj: {fileID: 1783717475242756, guid: f94328342969a0f4184c2529e2ff566a, type: 2}
+  Max: 100
+  branchMax: 4
+  branchMin: 0
+  tunnelChance: 0.6
+  maxTanks: 25
+  tankChance: 0.6
+  maxBreakAble: 0
+  BreakAbleChance: 0.6
+  cave: {fileID: 1322098162440950, guid: 3ed71f245c2cd3c4da3b893d8beabd54, type: 2}
+  tunnel: {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59, type: 2}
+  deadEnd: {fileID: 1077368038866866, guid: 9392808b66484a54ca7a089fea65cb75, type: 2}
+  breakAbleWall: {fileID: 1224044868413480, guid: 0e84293f0d9033e40a4ea60f6e343e08,
+    type: 2}
+  oxygenTank: {fileID: 1499256957908588, guid: 46b242d90d844154397b9f23a6203b57, type: 2}

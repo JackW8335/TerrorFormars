@@ -38,7 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4999810617513326}
   m_Layer: 0
-  m_Name: Start
+  m_Name: Door (0)
   m_TagString: openDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,8 +53,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4516954099400458}
   m_Layer: 0
-  m_Name: End
-  m_TagString: EndPos
+  m_Name: Door (1)
+  m_TagString: openDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
