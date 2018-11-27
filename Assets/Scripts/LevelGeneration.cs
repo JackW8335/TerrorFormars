@@ -5,170 +5,158 @@ using UnityEngine;
 public class LevelGeneration : MonoBehaviour
 {
 
+    public int Max;
+    public int Min;
 
-    public int numFloors = 3;
-    //public int MaxObj = 11;
-    public int startRoomMaxBranch = 0;  //each start room's exit will assign a random value to this which wil decide how far that branch goes in total
-    public int currentExitRouteCount = 0;
+    public int branchMax = 3;
+    public int branchMin = 1;
 
-     int branchMax = 3;
-     int branchMin = 1;
-
-    public GameObject[] caves;
-    public GameObject[] startObjects;
-
-    public GameObject[] tunnels;
+    public float tunnelChance = 0.5f;
+    public GameObject cave;
+    public GameObject tunnel;
     public GameObject deadEnd;
-    List<GameObject> fullCaveRoute;
-    List<GameObject> currentFloor;
-    private readonly float ModelRadius = 4.9965f;
+    const float ModelRadius = 4.9965f;
+
+    public int maxBreakAble;
+    public float BreakAbleChance = 0.6f;
+    int currentBreakAble;
+    public GameObject breakAbleWall;
+
+    public int maxTanks;
+    public float tankChance = 0.6f;
+    int currentTanks;
+    public GameObject oxygenTank;
+
+    List<GameObject> CaveSystem;
 
 
     private void Start()
     {
-        fullCaveRoute = new List<GameObject>();
-        currentFloor = new List<GameObject>();
-
-        MainGeneration();
+        CaveSystem = new List<GameObject>();
+        InilizeGenereation();
     }
 
+    void InilizeGenereation()
+    {
+        CaveSystem.Clear();
+        currentTanks = 0;
+        currentBreakAble = 0;
+        MainGeneration();
+        spawnAllTanks();
+        EndAllPaths();
+        if(CaveSystem.Count < Min)
+        {
+            InilizeGenereation();
+        }
+    }
+
+#region generate floor
     void MainGeneration()
     {
-        for (int i = 0; i < numFloors; i++)
-        {
-            GenerateFloor(i);
-        }
-    }
 
-    void GenerateFloor(int FloorNum)
-    {
-        GameObject FloorStart = PlaceStartRoom(FloorNum, startObjects[FloorNum], true);
-        currentFloor.Clear();
-        fullCaveRoute.Add(FloorStart);
-        currentFloor.Add(FloorStart);
+        GameObject FloorStart = Instantiate(cave, new Vector3(0, 0, 0), Quaternion.identity);
+        FloorStart.transform.parent = transform;
+        FloorStart.transform.eulerAngles = new Vector3(0, 0, 0);
+
+        currentTanks = 0;
+        CaveSystem.Add(FloorStart);
 
         //gerate all tunnels off first object
-        StartCoroutine(branchOffCave(FloorNum, FloorStart));
+        StartCoroutine(branchOffCave(FloorStart));
     }
+#endregion
 
-    IEnumerator branchOffCave(int FloorNum, GameObject Cave)
+    #region genarete branchs 
+    IEnumerator branchOffCave(GameObject Cave)
     {
-        bool startCave = false;
-        if (currentFloor.Count == 1)
-        {
-            startCave = true;
-        }
-
         for (int i = 0; i < Cave.transform.childCount; i++)
         {
             Transform caveDoor = Cave.transform.GetChild(i);
 
-            if (caveDoor.tag == "openDoor")     //don't include the slope exit
+            if (caveDoor.tag == "openDoor" && CaveSystem.Count < Max)     //don't include the slope exit
             {
-                if (startCave)  //when the floor only contains the start room
-                {
-                    if (FloorNum != 0 && i == 0)
-                    {
-                        caveDoor.tag = "closedDoor";
-                        continue;
-                    }
-                    startRoomMaxBranch = (int)Random.Range(2, 5);  //sets how many rooms will made from this start room's exit
-                    Debug.Log(FloorNum + " " + startRoomMaxBranch);
-                    //Call branching from here until startRoomMaxBranch is reched
-                    //for (int j = 0; j <= startRoomMaxBranch; j++)
-                  //  {
-                       // GenerateBranch(FloorNum, startRoomMaxBranch, i, tunnels[0], caveDoor);
-                        //Then add dead end room onto the end of current branch, may require a new list for the current branch
-                   // }
-                }
-
-
                 int branchLength = Random.Range(branchMin, branchMax);
+                caveDoor.tag = "closedDoor";
 
-                GenerateBranch(FloorNum, branchLength, i, tunnels[0], caveDoor);
-
+                GenerateBranch(branchLength, i, tunnel, caveDoor);
             }
         }
-        yield return null;
+        yield return null ;
     }
 
-    void GenerateBranch(int FloorNum,int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
+    void GenerateBranch(int branchLength, int doorNum, GameObject StartObject, Transform StartDoor)
     {
         GameObject nextObject = StartObject;
         Transform Door = StartDoor;
         Door.tag = "closedDoor";
-        if (currentExitRouteCount >= startRoomMaxBranch)
-        {
-            currentExitRouteCount = 0;
-        }
-        else
-        {
 
-            for (int i = 0; i <= branchLength; i++)
+        for (int i = 0; i <= branchLength; i++)
+        {
+            Vector3 Spawn = new Vector3(0, 0, 0);
+            Spawn = placeObject(doorNum, Door);
+
+
+            GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
+            newObject.transform.parent = transform;
+            newObject.transform.eulerAngles = Door.eulerAngles;
+            newObject.transform.GetChild(0).tag = "closedDoor";
+
+            if (!canPlace(newObject))
             {
-                Vector3 Spawn = new Vector3(0, 0, 0);
-                Spawn = placeObject(doorNum, Door);
-
-
-                GameObject newObject = Instantiate(nextObject, Spawn, Quaternion.identity);
-                newObject.transform.parent = transform;
-                newObject.transform.eulerAngles = Door.eulerAngles;
-                newObject.transform.GetChild(0).tag = "closedDoor";
-
-                if (!canPlace(newObject))//&& currentFloor.Count < MaxObj
-                {
-                    Destroy(newObject);
-                    EndPath(Door);
-                    continue;
-                }
-                
-
-                fullCaveRoute.Add(newObject);
-                currentFloor.Add(newObject);
-
-
-                if (newObject.tag == "cave")
-                {
-                    Door = newObject.transform.GetChild(3);
-                    Door.tag = "closedDoor";
-                    nextObject = tunnels[0];
-                    StartCoroutine(branchOffCave(FloorNum, newObject));
-                }
-                else
-                {
-                    Door = newObject.transform.GetChild(1);// get exit
-                    Door.tag = "closedDoor";
-                    nextObject = pickObjectToMake();
-                }
-
-                
-
-                currentExitRouteCount++;
+                Destroy(newObject);
+                Door.tag = "openDoor";
+                continue;
             }
-        }
-        //GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
-        //DeadEnd.transform.parent = transform;
-        //DeadEnd.transform.eulerAngles = Door.eulerAngles;
-        EndPath(Door);
-    }
 
+            CaveSystem.Add(newObject);
+            placeBreakAbleWall(Door);
+            if (newObject.tag == "cave")
+            {
+                spawnTank(newObject.transform);
+                Door = newObject.transform.GetChild(3);
+                if (i < branchLength)
+                {
+                    Door.tag = "closedDoor";
+                }
+                nextObject = tunnel;
+                StartCoroutine(branchOffCave(newObject));
+            }
+            else
+            {
+                Door = newObject.transform.GetChild(1);// get exit
+                if (i < branchLength)
+                {
+                    Door.tag = "closedDoor";
+                }
+                nextObject = pickObjectToMake();
+            }
+
+        }
+    }
     GameObject pickObjectToMake()
     {
-        float chance = Random.Range(0.0f,1.0f);
-        if (chance > 0.4)
+        float chance = Random.Range(0.0f, 1.0f);
+        if (chance > tunnelChance)
         {
-            return tunnels[0];
+            return tunnel;
         }
-        return caves[0];
+        return cave;
     }
 
-    void EndPath(Transform Door)
+    void placeBreakAbleWall(Transform Door)
     {
-        GameObject DeadEnd = Instantiate(deadEnd, Door.position, Quaternion.identity);
-        DeadEnd.transform.parent = transform;
-        DeadEnd.transform.eulerAngles = Door.eulerAngles;
+        // this hole system should be linked to oxygen 
+        float chance = Random.Range(0.0f, 1.0f);
+        if (chance > BreakAbleChance)
+        {
+            if(currentBreakAble < maxBreakAble)// this should never be higher then the number of oxygen tanks 
+            {
+                GameObject nwBreakAble = Instantiate(breakAbleWall, Door.position, Quaternion.identity);
+                currentBreakAble++;
+            }
+        }
     }
-
+    #region find new objects transform
     Vector3 placeObject(int doorNum, Transform Door)
     {
 
@@ -198,10 +186,10 @@ public class LevelGeneration : MonoBehaviour
                 Spawn = new Vector3(Door.parent.position.x, Door.parent.position.y, spawnOffset);
                 break;
         }
-        
+
         return Spawn;
     }
-    Vector3 RotateObject(int doorNum,Transform lastBranchTransform)
+    Vector3 RotateObject(int doorNum, Transform lastBranchTransform)
     {
         Vector3 nextRot = lastBranchTransform.eulerAngles;
 
@@ -209,7 +197,7 @@ public class LevelGeneration : MonoBehaviour
         {
             //Bottom
             case 0:
-                nextRot.y = lastBranchTransform.eulerAngles.y + 180 ;
+                nextRot.y = lastBranchTransform.eulerAngles.y + 180;
                 break;
             //Right
             case 1:
@@ -227,20 +215,14 @@ public class LevelGeneration : MonoBehaviour
         return nextRot;
     }
 
-
     bool canPlace(GameObject nwObject)
     {
         Vector3 objec1Pos = nwObject.transform.position;
         Vector3 object1Scale = nwObject.transform.localScale;
-        foreach (GameObject obj in currentFloor)
+        foreach (GameObject obj in CaveSystem)
         {
             Vector3 object2Pos = obj.transform.position;
             Vector3 object2Scale = obj.transform.localScale;
-            if(obj.name == "NwStartCave(Clone)")
-            {
-                object2Pos = obj.transform.GetChild(3).position;
-                object2Scale = obj.transform.GetChild(3).localScale;
-            }
 
             if (objec1Pos.x < object2Pos.x + object2Scale.x &&
                 objec1Pos.x + object1Scale.x > object2Pos.x &&
@@ -251,6 +233,21 @@ public class LevelGeneration : MonoBehaviour
             {
                 return false;
             }
+
+            if (obj.name == "StartRoom(Clone)")
+            {
+                object2Pos = obj.transform.GetChild(3).position;
+                object2Scale = obj.transform.GetChild(3).localScale;
+                if (objec1Pos.x < object2Pos.x + object2Scale.x &&
+               objec1Pos.x + object1Scale.x > object2Pos.x &&
+               objec1Pos.y < object2Pos.y + object2Scale.y &&
+               objec1Pos.y + object1Scale.y > object2Pos.y &&
+               objec1Pos.z < object2Pos.z + object2Scale.z &&
+               objec1Pos.z + object1Scale.z > object2Pos.z)
+                {
+                    return false;
+                }
+            }
             //if(obj.transform.position == nwObj)
             //{
             //return false;
@@ -259,34 +256,58 @@ public class LevelGeneration : MonoBehaviour
         }
         return true;
     }
+        #endregion
+    #endregion
 
-
-     GameObject PlaceStartRoom(int nextObjID, GameObject nextObjPrefab, bool firstCave)
-     {
-         Vector3 startPos = new Vector3(0, 0, 0);
-         Vector3 LastEnd = new Vector3(0, 0, 0);
-         Vector3 nextRot = new Vector3(0, 0, 0);
-
-        if (fullCaveRoute.Count -1 >= 0)
+    #region spawn tank
+    void spawnTank(Transform cave)
+    {
+        float chance = Random.Range(0.0f, 1.0f);
+        if (currentTanks < maxTanks)
         {
-            GameObject lastPrefab;
-            
-            lastPrefab = fullCaveRoute[fullCaveRoute.Count - currentFloor.Count];
-            LastEnd = lastPrefab.transform.GetChild(3).GetChild(1).position;
-            
-            
-
-            nextRot = lastPrefab.transform.eulerAngles;
-            float lastPrefabEdge = LastEnd.z;
-
-            float spawnPos = LastEnd.z + ModelRadius;
-            startPos = new Vector3(0, LastEnd.y, spawnPos);     
+            if (chance > tankChance)
+            {
+                GameObject nwOxygen = Instantiate(oxygenTank, cave.position, Quaternion.identity);
+                currentTanks++;
+            }
         }
-         GameObject nextObj = Instantiate(nextObjPrefab, startPos, Quaternion.identity);
-         nextObj.transform.parent = transform;
-         nextObj.transform.eulerAngles = nextRot;
-         return nextObj;
-     }
+    }
 
+    void spawnAllTanks()
+    {
+        foreach (GameObject obj in CaveSystem)
+        {
+            if (LayerMask.LayerToName(obj.layer) == "cave")
+            {
+                spawnTank(obj.transform);
+            }
+        }
+    }
+    #endregion
+
+    #region cap paths
+    void EndPath(Transform Door)
+    {
+        GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
+        DeadEnd.transform.parent = Door;
+        DeadEnd.transform.eulerAngles = Door.eulerAngles;
+    }
+
+    void EndAllPaths()
+    {
+        foreach (GameObject obj in CaveSystem)
+        {
+            for (int i = 0; i < obj.transform.childCount; i++)
+            {
+                GameObject door = obj.transform.GetChild(i).gameObject;
+                if(door.tag == "openDoor")
+                {
+                    EndPath(door.transform);
+                }
+             }
+
+        }
+    }
+    #endregion
 
 }
