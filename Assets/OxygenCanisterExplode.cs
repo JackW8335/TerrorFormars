@@ -18,10 +18,7 @@ public class OxygenCanisterExplode : MonoBehaviour {
 	void Update () {
 		
 	}
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
+
     private void OnTriggerStay(Collider thing)
     {
         if (this.GetComponent<Rigidbody>() != null)
@@ -30,11 +27,10 @@ public class OxygenCanisterExplode : MonoBehaviour {
             {
                 Debug.Log(thing.name);
                 Instantiate(explosion, this.transform).transform.parent = null;
-                thing.gameObject.GetComponent<RespawnTank>().Deactive();
+                Destroy(this.gameObject);
             }
             if (thing.tag == "Blockable")
             {
-                //other.gameObject.SetActive(false);
                 thing.gameObject.SetActive(false);
                 GameObject crumbleWall = Instantiate(newWall, thing.transform.position, Quaternion.identity);
                 crumbleWall.transform.eulerAngles = thing.transform.eulerAngles;

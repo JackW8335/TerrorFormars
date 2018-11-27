@@ -11,9 +11,12 @@ public class CrumbleWall : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(this.transform.position.y < 0.0f)
-        {
-            Destroy(this);
-        }
+        StartCoroutine(WaitAndDestroy(5.0f));
 	}
+
+    IEnumerator WaitAndDestroy(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        Destroy(this);
+    }
 }

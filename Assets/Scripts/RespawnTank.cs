@@ -16,7 +16,7 @@ public class RespawnTank : MonoBehaviour {
 		if(deactiveated)
         {
             deactiveated = false;
-            StartCoroutine(WaitAndRespwan(5.0f));
+            StartCoroutine(WaitAndRespwan(50.0f));
         }
 	}
     
@@ -24,7 +24,7 @@ public class RespawnTank : MonoBehaviour {
     {
         deactiveated = true;
         this.GetComponent<CapsuleCollider>().enabled = false;
-        for(int i =0; i < transform.childCount - 1;i++)
+        for(int i =0; i < transform.childCount;i++)
         {
             transform.GetChild(i).GetComponent<MeshRenderer>().enabled = false;
         }
@@ -39,10 +39,10 @@ public class RespawnTank : MonoBehaviour {
     void reActive()
     {
         this.transform.position = TanksSpawnPostion;
-        this.GetComponent<CapsuleCollider>().enabled = false;
+        this.GetComponent<CapsuleCollider>().enabled = true;
         for (int i = 0; i < transform.childCount - 1; i++)
         {
-            transform.GetChild(i).GetComponent<MeshRenderer>().enabled = false;
+            transform.GetChild(i).GetComponent<MeshRenderer>().enabled = true;
         }
     }
 }

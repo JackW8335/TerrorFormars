@@ -31,7 +31,8 @@ public class EnableParticle : MonoBehaviour
             tank.transform.parent = location;
 
             GameObject effect = Instantiate(particles, gameObject.transform.position, Quaternion.identity);
-            Destroy(this.gameObject);
+            this.GetComponent<RespawnTank>().Deactive();
+
         }
     }
 }
