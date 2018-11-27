@@ -92,10 +92,10 @@ public class Player : MonoBehaviour
 
         anim.SetFloat("Vertical", v);
         anim.SetFloat("Horizontal", h);
-  
-        if(anim.GetBool("Swimming"))
+
+        if (this.anim.GetCurrentAnimatorStateInfo(0).IsName("Swimming.swimming"))
         {
-            anim.SetBool("InSwim", true);
+            anim.SetBool("StartedSwim", true);
         }
 
         if (anim.GetBool("Dead"))
@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
             else
             {
                 anim.SetBool("Swimming", false);
-                anim.SetBool("InSwim", false);
+                anim.SetBool("StartedSwim", false);
                 setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
             Movement(h, v);
             setDirection(h, v);
             anim.SetBool("Swimming", false);
-            anim.SetBool("InSwim", false);
+            anim.SetBool("StartedSwim", false);
 
             if (Input.GetButtonDown("Taunt"))
             {
@@ -169,6 +169,10 @@ public class Player : MonoBehaviour
 
         }
         
+        if (!anim.GetBool("Swimming"))
+        {
+            anim.SetBool("InSwim", false);
+        }
 
         if (oxygen <= 0)
         {
