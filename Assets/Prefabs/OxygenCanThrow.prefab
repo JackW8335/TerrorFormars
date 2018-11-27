@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4050193144947774}
   - component: {fileID: 136949751676506358}
   - component: {fileID: 114472868875072040}
+  - component: {fileID: 131331075626777484}
   m_Layer: 0
   m_Name: OxygenCanThrow
   m_TagString: Throwable
@@ -419,6 +420,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
   newWall: {fileID: 1190734809203312, guid: 48f40edb55434764baa3f5e1ffa49dbf, type: 2}
+  guiTexture: {fileID: 131331075626777484}
+--- !u!131 &131331075626777484
+GUITexture:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1325202246907174}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: b20b82ce4535ec9438d5a7a2f0ffb174, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  m_LeftBorder: 0
+  m_RightBorder: 0
+  m_TopBorder: 0
+  m_BottomBorder: 0
 --- !u!136 &136949751676506358
 CapsuleCollider:
   m_ObjectHideFlags: 1
