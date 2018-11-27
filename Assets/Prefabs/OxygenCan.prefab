@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 4797024998414166}
   - component: {fileID: 136364800324058066}
   - component: {fileID: 114192620852476064}
+  - component: {fileID: 114894054223603932}
   m_Layer: 0
   m_Name: OxygenCan
   m_TagString: Untagged
@@ -419,6 +420,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particles: {fileID: 1820780024477220, guid: 2d7ab2f3e215fec45a71e438e7d2bba6, type: 2}
   throwObj: {fileID: 1325202246907174, guid: 5a527c73e8adf4b4684d4348b806ea58, type: 2}
+--- !u!114 &114894054223603932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1876960994321312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895e8396e96d69744baa115c1b844e6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136364800324058066
 CapsuleCollider:
   m_ObjectHideFlags: 1
