@@ -26,6 +26,7 @@ public class LevelGeneration : MonoBehaviour
     public float tankChance = 0.6f;
     int currentTanks;
     public GameObject oxygenTank;
+    public GameObject End;
 
     List<GameObject> CaveSystem;
 
@@ -156,6 +157,12 @@ public class LevelGeneration : MonoBehaviour
             }
         }
     }
+
+    void placeExit()
+    {
+
+    }
+
     #region find new objects transform
     Vector3 placeObject(int doorNum, Transform Door)
     {
