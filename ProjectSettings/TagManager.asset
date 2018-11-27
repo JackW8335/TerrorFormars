@@ -12,7 +12,6 @@ TagManager:
   - closedDoor
   - Throwable
   - Hand
-  - OutSideBlocker
   layers:
   - Default
   - TransparentFX
@@ -24,7 +23,7 @@ TagManager:
   - 
   - PostProcessing
   - Cave
-  - OutSideBlocker
+  - 
   - 
   - 
   - 

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23986303825172078}
   m_Layer: 0
   m_Name: Door_Hole
-  m_TagString: OutSideBlocker
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

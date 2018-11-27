@@ -38,7 +38,6 @@ public class WinState : MonoBehaviour {
         if (state != states.PLAYING)
         {
             fadeCounter += 0.01f;
-            panel.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
 
         }
     }

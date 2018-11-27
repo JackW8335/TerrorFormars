@@ -305,10 +305,10 @@ MonoBehaviour:
       lut: {fileID: 0}
       contribution: 1
   chromaticAberration:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
-      spectralTexture: {fileID: 0}
-      intensity: 0.1
+      spectralTexture: {fileID: 2800000, guid: bc6e7e1374ff3e1459f65bf72da64c85, type: 3}
+      intensity: 1
   grain:
     m_Enabled: 0
     m_Settings:
@@ -322,8 +322,8 @@ MonoBehaviour:
       mode: 0
       color: {r: 0, g: 0, b: 0, a: 1}
       center: {x: 0.5, y: 0.5}
-      intensity: 0.37
-      smoothness: 0.2
+      intensity: 0.9996074
+      smoothness: 1
       roundness: 1
       mask: {fileID: 0}
       opacity: 1

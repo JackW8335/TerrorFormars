@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -405,11 +406,16 @@ public class Player : MonoBehaviour
         if (oxygen <= 0 && alive)
         {
             anim.SetBool("Dead", true);
-            
+            audioSource.Stop();
+            PlayerAudio(1.0f, 1.0f, 6, 0.0f);
             alive = false;
+
+            GetComponentInParent<WinState>().state = WinState.states.DEFEAT;
         }
 
     }
+
+
 
     bool isUnderWater()
     {
@@ -434,11 +440,9 @@ public class Player : MonoBehaviour
 
     void setRenderDefault()
     {
-        RenderSettings.fog = fogEnabled;
-        RenderSettings.fogColor = fogColour;
-        RenderSettings.fogMode = fogMode;
-        RenderSettings.fogDensity = fogDensity;
-        mainCam.GetComponent<PostProcessingBehaviour>().enabled = false;//.profile = PPP_Land;
+        RenderSettings.fog = false;
+
+        //.profile = PPP_Land;
     }
 
     public float getYPos()
