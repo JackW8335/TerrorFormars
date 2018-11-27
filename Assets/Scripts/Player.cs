@@ -379,10 +379,11 @@ public class Player : MonoBehaviour
         if (oxygen <= 0 && alive)
         {
             anim.SetBool("Dead", true);
-            
-            alive = false;
-        }
+            //rb.AddForce(Physics.gravity * 3000);
 
+           alive = false;
+        }
+        rb.AddForce(Physics.gravity * 300);
     }
 
     bool isUnderWater()
@@ -444,14 +445,15 @@ public class Player : MonoBehaviour
 
     private IEnumerator launchAirCanister()
     {
+        if (!canCarry)
+        {
+            yield return new WaitForSeconds(1.5f);
+            canCarry = true;
+            GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
 
-        yield return new WaitForSeconds(1.5f);
-        canCarry = true;
-        GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
-
-        obj.transform.parent = null;
-        obj.AddComponent<Rigidbody>();
-        obj.GetComponent<Rigidbody>().AddForce(this.transform.forward*10, ForceMode.Impulse);
-
+            obj.transform.parent = null;
+            obj.AddComponent<Rigidbody>();
+            obj.GetComponent<Rigidbody>().AddForce(this.transform.forward * 10, ForceMode.Impulse);
+        }
     }
 }
