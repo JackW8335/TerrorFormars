@@ -406,18 +406,15 @@ public class Player : MonoBehaviour
 
     private void Dying()
     {
-        //if (fadeCounter <= 0.8f)
-        //{
-        //    fadeCounter += 0.005f;
-        //}
-        //deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, fadeCounter);
 
         if (oxygen <= 0 && alive)
         {
             anim.SetBool("Dead", true);
-            //rb.AddForce(Physics.gravity * 3000);
+            audioSource.Stop();
+            PlayerAudio(1.0f, 1.0f, 6, 0.0f);
+            alive = false;
 
-           alive = false;
+            GetComponentInParent<WinState>().state = WinState.states.DEFEAT;
         }
         rb.AddForce(Physics.gravity * 300);
     }
@@ -440,16 +437,13 @@ public class Player : MonoBehaviour
         RenderSettings.fogDensity = 0.1f;
         RenderSettings.fogMode = FogMode.Exponential;
 
-        mainCam.GetComponent<PostProcessingBehaviour>().enabled = true;//.profile = PPP_Underwater;
     }
 
     void setRenderDefault()
     {
-        RenderSettings.fog = fogEnabled;
-        RenderSettings.fogColor = fogColour;
-        RenderSettings.fogMode = fogMode;
-        RenderSettings.fogDensity = fogDensity;
-        mainCam.GetComponent<PostProcessingBehaviour>().enabled = false;//.profile = PPP_Land;
+        RenderSettings.fog = false;
+
+        //.profile = PPP_Land;
     }
 
     public float getYPos()
