@@ -411,7 +411,9 @@ public class Player : MonoBehaviour
         {
             anim.SetBool("Dead", true);
             audioSource.Stop();
-            PlayerAudio(1.0f, 1.0f, 6, 0.0f);
+            PlayerAudio(1.0f, 1.0f, 7, 0.0f);
+
+
             alive = false;
 
             GetComponentInParent<WinState>().state = WinState.states.DEFEAT;
