@@ -16,7 +16,7 @@ public class RespawnTank : MonoBehaviour {
 		if(deactiveated)
         {
             deactiveated = false;
-            StartCoroutine(WaitAndRespwan(50.0f));
+            StartCoroutine(WaitAndRespwan(10.0f));
         }
 	}
     
