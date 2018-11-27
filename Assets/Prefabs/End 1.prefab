@@ -21,6 +21,10 @@ GameObject:
   - component: {fileID: 4408567496787822}
   - component: {fileID: 33680334534852332}
   - component: {fileID: 23327832956126360}
+  - component: {fileID: 114239555527443158}
+  - component: {fileID: 114406437244865704}
+  - component: {fileID: 64118993117532388}
+  - component: {fileID: 65400465743181532}
   m_Layer: 0
   m_Name: End 1
   m_TagString: Untagged
@@ -51,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926144332873460}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1.57, z: 0}
+  m_LocalPosition: {x: 46.42353, y: 17.83, z: 22.506216}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 4941880984907694}
@@ -113,6 +117,32 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926144332873460}
   m_Mesh: {fileID: 4300000, guid: becce2aa4e8eec44383303a6e2f39edf, type: 3}
+--- !u!64 &64118993117532388
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1926144332873460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: becce2aa4e8eec44383303a6e2f39edf, type: 3}
+--- !u!65 &65400465743181532
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1926144332873460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 227.60162, y: 200.82121, z: 225.81898}
+  m_Center: {x: 1.6803741, y: 100.4005, z: -4.791653}
 --- !u!108 &108286725669884348
 Light:
   m_ObjectHideFlags: 1
@@ -121,7 +151,7 @@ Light:
   m_GameObject: {fileID: 1990983600667990}
   m_Enabled: 1
   serializedVersion: 8
-  m_Type: 0
+  m_Type: 2
   m_Color: {r: 0.7322854, g: 0.745283, b: 0.12304199, a: 1}
   m_Intensity: 100
   m_Range: 10
@@ -150,3 +180,26 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114239555527443158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1926144332873460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 269ecb2dcf193a6489b87484951ffa41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114406437244865704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1926144332873460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2681d59608ac7e744b685f9715297c9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
