@@ -24,8 +24,9 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Vector3 move;
 
-    private bool submerged;
-    private bool emerged;
+    private AudioSource audioSource;
+    public bool submerged;
+    public bool emerged;
     
     private Camera mainCam;
     private Vector3 camF;
@@ -80,7 +81,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         audioManager = GameObject.Find("Audio Source");
-    }
+        audioSource = audioManager.GetComponent<AudioScript>().audioSource;
+}
 
     // Update is called once per frame
     void Update()
@@ -104,6 +106,7 @@ public class Player : MonoBehaviour
                 {
                     Submerge();
                     submerged = true;
+                    emerged = false;
                 }
                 else if(submerged)
                 {
@@ -139,15 +142,16 @@ public class Player : MonoBehaviour
                 anim.SetBool("Swimming", false);
                 Movement(h, v);
                 setDirection(h, v);
-                submerged = false;
+                
                 setRenderDefault();
 
-                if (!emerged)
+                if (submerged)
                 {
+                    //Play Emerge sound effect if above water and currently submerged and not emerged
                     Emerge();
                     emerged = true;
+                    submerged = false;
                 }
-
             }
         }
         else
@@ -156,7 +160,6 @@ public class Player : MonoBehaviour
             anim.SetBool("Swimming", false);
             Movement(h, v);
             setDirection(h, v);
-
         }
         if (Input.GetButtonDown("Taunt"))
         {
@@ -229,7 +232,7 @@ public class Player : MonoBehaviour
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
-            footSteps(tempo, 0.01f);
+            footSteps(tempo, 0.1f);
 
         }
 
@@ -239,13 +242,13 @@ public class Player : MonoBehaviour
 
     void footSteps(float speed, float volume)
     {
-        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        if (!audioSource.isPlaying)
         {
-            audioManager.GetComponent<AudioScript>().audioSource.pitch = speed;
-            audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
+            audioSource.pitch = speed;
+            audioSource.volume = volume;
             audioManager.GetComponent<AudioScript>().setAudio(clips[Random.Range(0, 2)]);
-            audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
-            audioManager.GetComponent<AudioScript>().audioSource.Play();
+            audioSource.time = 0.0f;
+            audioSource.Play();
         }
 
     }
@@ -421,39 +424,34 @@ public class Player : MonoBehaviour
 
     }
 
-    void PlayerAudio(float pitch, float volume, int clip, float time)
+    void PlayerAudio(float pitch, float volume, int clip, float delay)
     {
-        audioManager.GetComponent<AudioScript>().audioSource.pitch = pitch;
-        audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
-        audioManager.GetComponent<AudioScript>().setAudio(clips[clip]);
-        audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
-        audioManager.GetComponent<AudioScript>().audioSource.loop = false;
-        audioManager.GetComponent<AudioScript>().audioSource.Play();
+        if (!audioSource.isPlaying)
+        {
+            audioSource.pitch = pitch;
+            audioSource.volume = volume;
+            audioManager.GetComponent<AudioScript>().setAudio(clips[clip]);
+            audioSource.PlayDelayed(delay);
+        }
     }
 
     void Submerge()
     {
-        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-        {
-            PlayerAudio(1.0f, 1.0f, 3, 0.0f);
-        }
+        audioSource.Stop();
+        PlayerAudio(1.0f, 1.0f, 3, 0.0f);
     }
 
     void WaterAmbient()
     {
-        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-        {
-            PlayerAudio(1.0f, 1.0f, 4, 0.0f);
-        }
+        PlayerAudio(1.0f, 1.0f, 4, 0.0f);
     }
 
     void Emerge()
     {
-        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
-        {
-            PlayerAudio(1.0f, 1.0f, 5, 0.0f);
-        }
+        audioSource.Stop();
+        PlayerAudio(1.0f, 1.0f, 5, 0.0f);
     }
+
 
     private void OnTriggerExit(Collider other)
     {
