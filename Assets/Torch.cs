@@ -8,26 +8,32 @@ public class Torch : MonoBehaviour
     public float flickerSpeed = 1.0f;
     private float waitTime = 0;
     private Light torchLight;
+    private Player player;
 
     // Use this for initialization
     private void Start()
     {
         torchLight = GetComponent<Light>();
+        player = GetComponentInParent<Player>();
     }
 
 
     // Update is called once per frame
     void FixedUpdate ()
     {
-        waitTime += Time.deltaTime;
-
-        if (waitTime >= Random.Range(15, 30))
+        //Torch will start to flash when oxygen is low
+        if (player.oxygen < 40)
         {
-            StartCoroutine(FlickeringOn());
-            waitTime = 0;
-        }
 
-        
+            waitTime += Time.deltaTime;
+
+            if (waitTime >= Random.Range(15, 25))
+            {
+                StartCoroutine(FlickeringOn());
+                waitTime = 0;
+            }
+
+        }
 
     }
 
