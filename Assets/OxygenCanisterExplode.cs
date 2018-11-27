@@ -30,7 +30,7 @@ public class OxygenCanisterExplode : MonoBehaviour {
             {
                 Debug.Log(thing.name);
                 Instantiate(explosion, this.transform).transform.parent = null;
-                Destroy(this.gameObject);
+                thing.gameObject.GetComponent<RespawnTank>().Deactive();
             }
             if (thing.tag == "Blockable")
             {

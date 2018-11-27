@@ -21,9 +21,11 @@ GameObject:
   - component: {fileID: 4508817561579922}
   - component: {fileID: 33460713851974854}
   - component: {fileID: 23460473641195542}
+  - component: {fileID: 65247004062411398}
+  - component: {fileID: 114685074671700586}
   m_Layer: 0
   m_Name: blockade
-  m_TagString: Untagged
+  m_TagString: Blockable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904277588883320}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: -2.6385841, y: 0.00010105133, z: -4.789}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,3 +85,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1904277588883320}
   m_Mesh: {fileID: 4300000, guid: becce2aa4e8eec44383303a6e2f39edf, type: 3}
+--- !u!65 &65247004062411398
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1904277588883320}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 170.69888, y: 200.82121, z: 148.874}
+  m_Center: {x: 3.0175924, y: 100.4005, z: -1.4542133}
+--- !u!114 &114685074671700586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1904277588883320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a7dfe8c385a5d04ea1ad8159851327f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

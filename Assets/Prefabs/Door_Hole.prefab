@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4031686293978132}
   - component: {fileID: 33435793869923108}
   - component: {fileID: 23986303825172078}
+  - component: {fileID: 64835066534127904}
   m_Layer: 0
   m_Name: Door_Hole
   m_TagString: OutSideBlocker
@@ -82,4 +83,18 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1077368038866866}
+  m_Mesh: {fileID: 4300000, guid: 80fcde85e1c5bf04bb62c82b67c780d8, type: 3}
+--- !u!64 &64835066534127904
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1077368038866866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 80fcde85e1c5bf04bb62c82b67c780d8, type: 3}
