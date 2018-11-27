@@ -24,6 +24,9 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private Vector3 move;
 
+    private AudioSource audioSource;
+    public bool submerged;
+    public bool emerged;
     
     private Camera mainCam;
     private Vector3 camF;
@@ -81,7 +84,8 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>() as Camera;
         audioManager = GameObject.Find("Audio Source");
-    }
+        audioSource = audioManager.GetComponent<AudioScript>().audioSource;
+}
 
     // Update is called once per frame
     void Update()
@@ -107,6 +111,16 @@ public class Player : MonoBehaviour
         {
             if (isUnderWater())
             {
+                if (!submerged)
+                {
+                    Submerge();
+                    submerged = true;
+                    emerged = false;
+                }
+                else if(submerged)
+                {
+                    WaterAmbient();
+                }
                 anim.SetBool("Swimming", true);
                 rb.drag = 3.0f;
                 Dive(v, h);
@@ -144,10 +158,22 @@ public class Player : MonoBehaviour
                 setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
+                
+                setRenderDefault();
+
+                if (submerged)
+                {
+                    //Play Emerge sound effect if above water and currently submerged and not emerged
+                    Emerge();
+                    emerged = true;
+                    submerged = false;
+                }
             }
         }
         else
         {
+            setRenderDefault();
+            anim.SetBool("Swimming", false);
             Movement(h, v);
             setDirection(h, v);
             anim.SetBool("Swimming", false);
@@ -169,10 +195,6 @@ public class Player : MonoBehaviour
 
         }
         
-        if (!anim.GetBool("Swimming"))
-        {
-            anim.SetBool("InSwim", false);
-        }
 
         if (oxygen <= 0)
         {
@@ -222,7 +244,7 @@ public class Player : MonoBehaviour
             speed = walkSpeed;
             anim.SetBool("Running", false);
             running = false;
-            tempo = 0.9f;
+            tempo = 1.2f;
         }
 
         if (v > joystick_deadzone || v < -joystick_deadzone || h > joystick_deadzone || h < -joystick_deadzone)
@@ -240,7 +262,7 @@ public class Player : MonoBehaviour
             rb.velocity = move;
 
             transform.position += move * Time.deltaTime;
-            footSteps(tempo, 0.01f);
+            footSteps(tempo, 0.1f);
 
         }
 
@@ -250,13 +272,13 @@ public class Player : MonoBehaviour
 
     void footSteps(float speed, float volume)
     {
-        if (!audioManager.GetComponent<AudioScript>().audioSource.isPlaying)
+        if (!audioSource.isPlaying)
         {
-            audioManager.GetComponent<AudioScript>().audioSource.pitch = speed;
-            audioManager.GetComponent<AudioScript>().audioSource.volume = volume;
+            audioSource.pitch = speed;
+            audioSource.volume = volume;
             audioManager.GetComponent<AudioScript>().setAudio(clips[Random.Range(0, 2)]);
-            audioManager.GetComponent<AudioScript>().audioSource.time = 0.0f;
-            audioManager.GetComponent<AudioScript>().audioSource.Play();
+            audioSource.time = 0.0f;
+            audioSource.Play();
         }
 
     }
@@ -432,9 +454,39 @@ public class Player : MonoBehaviour
         {
             IsInWater = true;
             waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
+            
         }
 
     }
+
+    void PlayerAudio(float pitch, float volume, int clip, float delay)
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.pitch = pitch;
+            audioSource.volume = volume;
+            audioManager.GetComponent<AudioScript>().setAudio(clips[clip]);
+            audioSource.PlayDelayed(delay);
+        }
+    }
+
+    void Submerge()
+    {
+        audioSource.Stop();
+        PlayerAudio(1.0f, 1.0f, 3, 0.0f);
+    }
+
+    void WaterAmbient()
+    {
+        PlayerAudio(1.0f, 1.0f, 4, 0.0f);
+    }
+
+    void Emerge()
+    {
+        audioSource.Stop();
+        PlayerAudio(1.0f, 1.0f, 5, 0.0f);
+    }
+
 
     private void OnTriggerExit(Collider other)
     {
