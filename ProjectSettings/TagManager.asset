@@ -13,7 +13,6 @@ TagManager:
   - Throwable
   - Hand
   - OutSideBlocker
-  - Blockable
   layers:
   - Default
   - TransparentFX

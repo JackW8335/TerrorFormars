@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -168,18 +169,6 @@ public class Player : MonoBehaviour
                     emerged = true;
                     submerged = false;
                 }
-                if (Input.GetButtonDown("Taunt"))
-                {
-                    if (!canCarry)
-                    {
-                        anim.SetBool("Throw", true);
-                        StartCoroutine("launchAirCanister");
-                    }
-                }
-                else
-                {
-                    anim.SetBool("Throw", false);
-                }
             }
         }
         else
@@ -193,16 +182,18 @@ public class Player : MonoBehaviour
 
             if (Input.GetButtonDown("Taunt"))
             {
-                if (!canCarry)
-                {
-                    anim.SetBool("Throw", true);
+                Taunt();
+            }
+            if (Input.GetButtonDown("Throw"))
+            {
+                anim.SetBool("Throw", true);
                 StartCoroutine("launchAirCanister");
-                }
             }
             else
             {
                 anim.SetBool("Throw", false);
             }
+
         }
         
 
@@ -415,16 +406,20 @@ public class Player : MonoBehaviour
         if (oxygen <= 0 && alive)
         {
             anim.SetBool("Dead", true);
-            //rb.AddForce(Physics.gravity * 3000);
+            audioSource.Stop();
+            PlayerAudio(1.0f, 1.0f, 6, 0.0f);
+            alive = false;
 
-           alive = false;
+            GetComponentInParent<WinState>().state = WinState.states.DEFEAT;
         }
-        rb.AddForce(Physics.gravity * 300);
+
     }
+
+
 
     bool isUnderWater()
     {
-        return head.position.y <= (waterSurfacePosY);
+        return head.position.y < (waterSurfacePosY);
     }
 
     bool ExitingWater()
@@ -445,11 +440,9 @@ public class Player : MonoBehaviour
 
     void setRenderDefault()
     {
-        RenderSettings.fog = fogEnabled;
-        RenderSettings.fogColor = fogColour;
-        RenderSettings.fogMode = fogMode;
-        RenderSettings.fogDensity = fogDensity;
-        mainCam.GetComponent<PostProcessingBehaviour>().enabled = false;//.profile = PPP_Land;
+        RenderSettings.fog = false;
+
+        //.profile = PPP_Land;
     }
 
     public float getYPos()
@@ -511,14 +504,14 @@ public class Player : MonoBehaviour
 
     private IEnumerator launchAirCanister()
     {
-        
-            yield return new WaitForSeconds(1.5f);
-            canCarry = true;
-            GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
 
-            obj.transform.parent = null;
-            obj.AddComponent<Rigidbody>();
-            obj.GetComponent<Rigidbody>().AddForce(this.transform.forward * 10, ForceMode.Impulse);
-        
+        yield return new WaitForSeconds(1.5f);
+        canCarry = true;
+        GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
+
+        obj.transform.parent = null;
+        obj.AddComponent<Rigidbody>();
+        obj.GetComponent<Rigidbody>().AddForce(this.transform.forward*10, ForceMode.Impulse);
+
     }
 }

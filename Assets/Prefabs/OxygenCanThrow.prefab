@@ -418,7 +418,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
-  newWall: {fileID: 1190734809203312, guid: 48f40edb55434764baa3f5e1ffa49dbf, type: 2}
 --- !u!136 &136949751676506358
 CapsuleCollider:
   m_ObjectHideFlags: 1
