@@ -185,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1876960994321312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.616, z: 1.797}
+  m_LocalPosition: {x: -5.025552, y: 9.93724e-16, z: 0.49515736}
   m_LocalScale: {x: 0.011304963, y: 0.011304963, z: 0.011304963}
   m_Children:
   - {fileID: 4143677058141388}
@@ -418,6 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particles: {fileID: 1820780024477220, guid: 2d7ab2f3e215fec45a71e438e7d2bba6, type: 2}
+  throwObj: {fileID: 1325202246907174, guid: 5a527c73e8adf4b4684d4348b806ea58, type: 2}
 --- !u!136 &136364800324058066
 CapsuleCollider:
   m_ObjectHideFlags: 1

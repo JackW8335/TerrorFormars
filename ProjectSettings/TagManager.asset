@@ -12,6 +12,7 @@ TagManager:
   - closedDoor
   - Throwable
   - Hand
+  - Blockable
   layers:
   - Default
   - TransparentFX

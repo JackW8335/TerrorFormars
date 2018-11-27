@@ -144,6 +144,18 @@ public class Player : MonoBehaviour
                 setRenderDefault();
                 Movement(h, v);
                 setDirection(h, v);
+                if (Input.GetButtonDown("Taunt"))
+                {
+                    if (!canCarry)
+                    {
+                        anim.SetBool("Throw", true);
+                        StartCoroutine("launchAirCanister");
+                    }
+                }
+                else
+                {
+                    anim.SetBool("Throw", false);
+                }
             }
         }
         else
@@ -152,21 +164,18 @@ public class Player : MonoBehaviour
             setDirection(h, v);
             anim.SetBool("Swimming", false);
             anim.SetBool("InSwim", false);
-
             if (Input.GetButtonDown("Taunt"))
             {
-                Taunt();
-            }
-            if (Input.GetButtonDown("Throw"))
-            {
-                anim.SetBool("Throw", true);
+                if (!canCarry)
+                {
+                    anim.SetBool("Throw", true);
                 StartCoroutine("launchAirCanister");
+                }
             }
             else
             {
                 anim.SetBool("Throw", false);
             }
-
         }
         
 
@@ -388,7 +397,7 @@ public class Player : MonoBehaviour
 
     bool isUnderWater()
     {
-        return head.position.y < (waterSurfacePosY);
+        return head.position.y <= (waterSurfacePosY);
     }
 
     bool ExitingWater()
@@ -445,8 +454,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator launchAirCanister()
     {
-        if (!canCarry)
-        {
+        
             yield return new WaitForSeconds(1.5f);
             canCarry = true;
             GameObject obj = GameObject.FindGameObjectWithTag("Throwable");
@@ -454,6 +462,6 @@ public class Player : MonoBehaviour
             obj.transform.parent = null;
             obj.AddComponent<Rigidbody>();
             obj.GetComponent<Rigidbody>().AddForce(this.transform.forward * 10, ForceMode.Impulse);
-        }
+        
     }
 }
