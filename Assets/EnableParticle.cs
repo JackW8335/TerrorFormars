@@ -31,8 +31,28 @@ public class EnableParticle : MonoBehaviour
             tank.transform.parent = location;
 
             GameObject effect = Instantiate(particles, gameObject.transform.position, Quaternion.identity);
-            this.GetComponent<RespawnTank>().Deactive();
+
+
+            findClosetTankToPlayer().gameObject.GetComponent<RespawnTank>().Deactive();
 
         }
+    }
+
+    Transform findClosetTankToPlayer()
+    {
+        Transform tMin = null;
+        float minDist = Mathf.Infinity;
+        Vector3 currentPos = transform.position;
+        for(int i =0; i < transform.childCount;i++)
+        {
+            Transform t = transform.GetChild(i);
+            float dist = Vector3.Distance(t.position, currentPos);
+            if (dist < minDist)
+            {
+                tMin = t;
+                minDist = dist;
+            }
+        }
+        return tMin;
     }
 }

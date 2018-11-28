@@ -38,8 +38,9 @@ public class Player : MonoBehaviour
 
     [Header("Swimming")]
     public float oxygen = 100;
-    public float oxygenDecrease = 5;
+    public float oxygenDecrease = 0.5f;
     public bool IsInWater = false;
+    public bool isOutOfDepth = false;
     private FogMode fogMode;
     private float fogDensity;
     private Color fogColour;
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
     private float swimmingAngle = 0;
 
     public Transform body;
-    public Transform head;
+    public Transform torso;
 
     [Range(0.5f, 3.0f)]
     public float UpDownSpeed = 1.0f;
@@ -109,41 +110,59 @@ public class Player : MonoBehaviour
 
         if (IsInWater)
         {
-            if (isUnderWater())
+            if(isOutOfDepth)
             {
-                if (!submerged)
-                {
-                    Submerge();
-                    submerged = true;
-                    emerged = false;
-                }
-                else if(submerged)
-                {
-                    WaterAmbient();
-                }
                 anim.SetBool("Swimming", true);
                 rb.drag = 3.0f;
                 Dive(v, h);
-                setRenderDive();
-                LowerOxygen(oxygenDecrease);
 
-                if(Input.GetButton("Dive"))
+                if (Input.GetButton("Dive"))
                 {
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,
                                   Quaternion.Euler(60, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
-                    swimmingAngle = transform.rotation.x;
-                }
-                else if(Input.GetButton("Surface"))
-                {
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, 
-                                  Quaternion.Euler(-60, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
                     swimmingAngle = transform.rotation.x;
                 }
                 else
                 {
-                    transform.rotation = Quaternion.RotateTowards(transform.rotation, 
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation,
                                   Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
                     swimmingAngle = transform.rotation.x;
+                }
+
+                if (isUnderWater())
+                {
+                    if (!submerged)
+                    {
+                        Submerge();
+                        submerged = true;
+                        emerged = false;
+                    }
+                    else if (submerged)
+                    {
+                        WaterAmbient();
+                    }
+
+                    setRenderDive();
+                    LowerOxygen(oxygenDecrease);
+                    if (Input.GetButton("Surface") && isUnderWater())
+                    {
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                                      Quaternion.Euler(-60, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
+                        swimmingAngle = transform.rotation.x;
+                    }
+                    else
+                    {
+                        transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                                      Quaternion.Euler(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
+                        swimmingAngle = transform.rotation.x;
+                    }
+
+
+
+                }
+                else
+                {
+                    setRenderDefault();
                 }
             }
             else if(ExitingWater())
@@ -159,7 +178,7 @@ public class Player : MonoBehaviour
                 Movement(h, v);
                 setDirection(h, v);
                 
-                setRenderDefault();
+                
 
                 if (submerged)
                 {
@@ -167,18 +186,6 @@ public class Player : MonoBehaviour
                     Emerge();
                     emerged = true;
                     submerged = false;
-                }
-                if (Input.GetButtonDown("Taunt"))
-                {
-                    if (!canCarry)
-                    {
-                        anim.SetBool("Throw", true);
-                        StartCoroutine("launchAirCanister");
-                    }
-                }
-                else
-                {
-                    anim.SetBool("Throw", false);
                 }
             }
         }
@@ -190,31 +197,29 @@ public class Player : MonoBehaviour
             setDirection(h, v);
             anim.SetBool("Swimming", false);
             anim.SetBool("StartedSwim", false);
+        }
 
-            if (Input.GetButtonDown("Taunt"))
+        if (Input.GetButtonDown("Taunt"))
+        {
+            if (!canCarry)
             {
-                if (!canCarry)
+                if (!isUnderWater())
                 {
                     anim.SetBool("Throw", true);
-                StartCoroutine("launchAirCanister");
                 }
-            }
-            else
-            {
-                anim.SetBool("Throw", false);
+                StartCoroutine("launchAirCanister");
             }
         }
-        
+        else
+        {
+            anim.SetBool("Throw", false);
+        }
+
 
         if (oxygen <= 0)
         {
             Dying();
         }
-        else
-        {
-           // deathFade.GetComponent<Image>().color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        }
-        //GetOxygen();
     }
 
     private void LowerOxygen(float amount)
@@ -320,7 +325,7 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(0, 0, 0);
 
         //also maybe set player rotation to face up or down when animation is implemented
-        if (head.position.y < (waterSurfacePosY + aboveWaterTolerance))
+        if (torso.position.y < (waterSurfacePosY + aboveWaterTolerance))
         {
             if (Input.GetButton("Surface"))//Surface
             {
@@ -393,15 +398,6 @@ public class Player : MonoBehaviour
     void Taunt()
     {
         anim.SetBool("Throw", true);
-        //if (oxygen > 25)
-        //{
-        //    GameObject OT = Instantiate(oxygenTank, head.transform.position, this.transform.rotation);
-        //    //OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
-
-        //    OT.transform.eulerAngles = new Vector3(90, this.transform.rotation.y, this.transform.rotation.z);
-        //    oxygen -= 25;
-        //}
-
     }
 
     private void Dying()
@@ -423,7 +419,12 @@ public class Player : MonoBehaviour
 
     bool isUnderWater()
     {
-        return head.position.y <= (waterSurfacePosY);
+        return mainCam.transform.position.y < (waterSurfacePosY);
+    }
+
+    void setOutOfDepth()
+    {
+        isOutOfDepth = torso.position.y <= (waterSurfacePosY);
     }
 
     bool ExitingWater()
@@ -444,8 +445,6 @@ public class Player : MonoBehaviour
     void setRenderDefault()
     {
         RenderSettings.fog = false;
-
-        //.profile = PPP_Land;
     }
 
     public float getYPos()
@@ -460,8 +459,11 @@ public class Player : MonoBehaviour
         if (LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
         {
             IsInWater = true;
-            waterSurfacePosY = other.gameObject.transform.position.y;//* other.bounds.size.y
-            
+            waterSurfacePosY = other.gameObject.transform.position.y;
+            if (!isOutOfDepth)
+            {
+                setOutOfDepth();
+            }
         }
 
     }
@@ -499,8 +501,8 @@ public class Player : MonoBehaviour
     {
         if (LayerMask.LayerToName(other.gameObject.layer) == "Water")//water
         {
-            IsInWater = false;
-            waterSurfacePosY = 0.0f;
+            //IsInWater = false;
+           // waterSurfacePosY = 0.0f;
 
         }
     }

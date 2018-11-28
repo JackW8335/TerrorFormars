@@ -50,7 +50,7 @@ public class LevelGeneration : MonoBehaviour
         currentTanks = 0;
         currentBreakAble = 0;
         MainGeneration();
-        spawnAllTanks();
+       // spawnAllTanks();
         EndAllPaths();
         if (CaveSystem.Count < Min)
         {

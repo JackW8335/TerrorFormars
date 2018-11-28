@@ -10,7 +10,7 @@ public class FadeIntro : MonoBehaviour {
     public Text text1;
     public Text text2;
     public float time = 1.0f;
-    private int turn = 0;
+    public int turn = 0;
 
     // Use this for initialization
     void Start ()
@@ -20,12 +20,20 @@ public class FadeIntro : MonoBehaviour {
 
         StartCoroutine("cutscene");
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	}
 
+    // Update is called once per frame
+    void Update()
+    {
+        skippIntro();
+    }
+    
+    void skippIntro()
+    {
+        if (Input.GetButtonDown("Taunt"))
+        {
+            SceneManager.LoadScene("WaterTest");
+        }
+    }
     IEnumerator fadeTextIn(Text text)
     {
         while (text.color.a < 1.0f)
