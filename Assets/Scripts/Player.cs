@@ -195,7 +195,6 @@ public class Player : MonoBehaviour
         else
         {
             setRenderDefault();
-            anim.SetBool("Swimming", false);
             Movement(h, v);
             setDirection(h, v);
             anim.SetBool("Swimming", false);

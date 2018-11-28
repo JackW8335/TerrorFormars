@@ -24,7 +24,6 @@ public class FateCredits : MonoBehaviour {
 		if(Input.GetButton("Taunt"))
         {
             SceneManager.LoadScene("MainMenu");
-
         }
 
     }
@@ -67,7 +66,7 @@ public class FateCredits : MonoBehaviour {
                 }
             case 2:
                 {
-                    SceneManager.LoadScene("Victory");
+                    SceneManager.LoadScene("MainMenu");
                     break;
                 }
         }

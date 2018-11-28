@@ -667,6 +667,11 @@ Prefab:
       propertyPath: clips.Array.data[7]
       value: 
       objectReference: {fileID: 8300000, guid: 73e1b42cc1a88d640bab0344c935ba08, type: 3}
+    - target: {fileID: 114776893526562608, guid: 395991952bea97444a170b418dc3199e,
+        type: 2}
+      propertyPath: oxygenDecrease
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114059655821995340, guid: 395991952bea97444a170b418dc3199e, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 395991952bea97444a170b418dc3199e, type: 2}
@@ -1054,6 +1059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae59d4981e27224fbb0a31779f6db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterRiseingRate: 0.02
+  waterRiseingRate: 0.03
   playerObj: {fileID: 161143181}
   HeightTolearnce: 5
