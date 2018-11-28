@@ -15,13 +15,19 @@ public class FateCredits : MonoBehaviour {
     {
         t.color = new Color(t.color.r, t.color.g, t.color.b, 0);
 
-        StartCoroutine("cutscene");
+        StartCoroutine("fadeTextIn", t);
+        // StartCoroutine("cutscene");
     }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+		if(Input.GetButton("Taunt"))
+        {
+            SceneManager.LoadScene("MainMenu");
+
+        }
+
+    }
 
     IEnumerator fadeTextIn(Text text)
     {

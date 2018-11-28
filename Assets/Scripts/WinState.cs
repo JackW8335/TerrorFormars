@@ -24,7 +24,7 @@ public class WinState : MonoBehaviour {
         }
         else if(state == states.VICTORY)
         {
-            SceneManager.LoadScene("Victory");
+            SceneManager.LoadScene("EndCreditsCutscene");
         }
         else if(state == states.DEFEAT)
         {
