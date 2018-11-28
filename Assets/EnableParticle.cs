@@ -22,20 +22,23 @@ public class EnableParticle : MonoBehaviour
         able = player.GetComponent<Player>().canCarry;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag == "Player" && able)
-        {
-            player.GetComponent<Player>().canCarry = false;
-            GameObject tank = Instantiate(throwObj, location);
-            tank.transform.parent = location;
+       // if (Input.GetButtonDown("PickUp"))
+       // {
+            if (other.gameObject.tag == "Player" && able)
+            {
+                player.GetComponent<Player>().canCarry = false;
+                GameObject tank = Instantiate(throwObj, location);
+                tank.transform.parent = location;
 
-            GameObject effect = Instantiate(particles, gameObject.transform.position, Quaternion.identity);
+                GameObject effect = Instantiate(particles, gameObject.transform.position, Quaternion.identity);
 
 
-            findClosetTankToPlayer().gameObject.GetComponent<RespawnTank>().Deactive();
+                findClosetTankToPlayer().gameObject.GetComponent<RespawnTank>().Deactive();
 
-        }
+            }
+       // }
     }
 
     Transform findClosetTankToPlayer()

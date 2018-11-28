@@ -787,7 +787,7 @@ Prefab:
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
       propertyPath: maxPlacementToExit
-      value: 46
+      value: 36
       objectReference: {fileID: 0}
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
@@ -839,7 +839,7 @@ Prefab:
     - target: {fileID: 114793957245467516, guid: ccb70bafa25a25c428e16fe998954ae7,
         type: 2}
       propertyPath: Max
-      value: 40
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccb70bafa25a25c428e16fe998954ae7, type: 2}
@@ -1048,6 +1048,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae59d4981e27224fbb0a31779f6db92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterRiseingRate: 0.03
+  waterRiseingRate: 0.02
   playerObj: {fileID: 161143181}
   HeightTolearnce: 5
