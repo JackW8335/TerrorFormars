@@ -52,16 +52,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Max: 100
+  Min: 0
   branchMax: 4
   branchMin: 0
   tunnelChance: 0.6
-  maxTanks: 25
-  tankChance: 0.6
-  maxBreakAble: 0
-  BreakAbleChance: 0.6
   cave: {fileID: 1322098162440950, guid: 3ed71f245c2cd3c4da3b893d8beabd54, type: 2}
   tunnel: {fileID: 1053122340374742, guid: 2151440a04590f74ba0ea2e649fbad59, type: 2}
   deadEnd: {fileID: 1077368038866866, guid: 9392808b66484a54ca7a089fea65cb75, type: 2}
+  maxBreakAble: 0
+  BreakAbleChance: 0.6
   breakAbleWall: {fileID: 1224044868413480, guid: 0e84293f0d9033e40a4ea60f6e343e08,
     type: 2}
-  oxygenTank: {fileID: 1499256957908588, guid: 46b242d90d844154397b9f23a6203b57, type: 2}
+  maxTanks: 25
+  tankChance: 0.6
+  oxygenTank: {fileID: 1791826045695626, guid: 5e0b6bc7899d3ab4d9221ff95291a8c1, type: 2}
+  maxPlacementToExit: 0
+  minPlacementToExit: 0
+  exitChance: 0.6
+  exit: {fileID: 0}
