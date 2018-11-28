@@ -662,7 +662,13 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114776893526562608, guid: 395991952bea97444a170b418dc3199e,
+        type: 2}
+      propertyPath: clips.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 73e1b42cc1a88d640bab0344c935ba08, type: 3}
+    m_RemovedComponents:
+    - {fileID: 114059655821995340, guid: 395991952bea97444a170b418dc3199e, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: 395991952bea97444a170b418dc3199e, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &1284083975
