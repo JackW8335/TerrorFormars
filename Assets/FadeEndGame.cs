@@ -16,7 +16,7 @@ public class FadeEndGame : MonoBehaviour
     {
         if(collision.tag == "Throwable")
         {
-            Instantiate(EndExplosion, this.transform).transform.parent = null;
+            Instantiate(EndExplosion, collision.transform);
             win.state = WinState.states.VICTORY;
         }
     }
