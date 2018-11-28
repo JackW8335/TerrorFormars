@@ -402,7 +402,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4462831673993762}
   m_Layer: 0
-  m_Name: Torso
+  m_Name: FlareDropPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -448,6 +448,21 @@ GameObject:
   - component: {fileID: 4712598217221686}
   m_Layer: 0
   m_Name: mixamorig:RightHandMiddle2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1403670526301332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4085425198724108}
+  m_Layer: 0
+  m_Name: Torso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -822,6 +837,7 @@ GameObject:
   - component: {fileID: 136923952983775450}
   - component: {fileID: 114776893526562608}
   - component: {fileID: 114905400662256136}
+  - component: {fileID: 114059655821995340}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1323,6 +1339,19 @@ Transform:
   m_Father: {fileID: 4115670792936444}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4085425198724108
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403670526301332}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.361, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4929990463832908}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4086330554455754
 Transform:
   m_ObjectHideFlags: 1
@@ -1684,12 +1713,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1342599297762386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.361, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.053, z: -0.434}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4929990463832908}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4462873159806376
 Transform:
@@ -2104,7 +2133,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4929990463832908}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4853687077798712
 Transform:
@@ -2234,10 +2263,11 @@ Transform:
   - {fileID: 4557703230487948}
   - {fileID: 4885795875671418}
   - {fileID: 4537123768958772}
+  - {fileID: 4085425198724108}
   - {fileID: 4462831673993762}
-  - {fileID: 4842445532271328}
   - {fileID: 4396600697161888}
   - {fileID: 4443915386108472}
+  - {fileID: 4842445532271328}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
@@ -2714,9 +2744,10 @@ MonoBehaviour:
   oxygen: 100
   oxygenDecrease: 5
   IsInWater: 0
+  isOutOfDepth: 0
   aboveWaterTolerance: 0.5
   body: {fileID: 4396600697161888}
-  torso: {fileID: 4462831673993762}
+  torso: {fileID: 4085425198724108}
   UpDownSpeed: 1
   fogColurWater: {r: 0, g: 0, b: 0, a: 0}
   PPP_Land: {fileID: 11400000, guid: c5f29c43bd77b3248b29510abc69be49, type: 2}
@@ -2724,6 +2755,7 @@ MonoBehaviour:
   oxygenTank: {fileID: 1410452381580402}
   deathFade: {fileID: 0}
   canCarry: 1
+  Flare: {fileID: 1552943964523584, guid: d2e53b98e66095242afb90bded545702, type: 2}
   clips:
   - {fileID: 8300000, guid: 94dbd4febab734210a43c84263f5e116, type: 3}
   - {fileID: 8300000, guid: 3ff9fcf8763db443d8c48710cdf9ab60, type: 3}

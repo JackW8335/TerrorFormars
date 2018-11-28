@@ -39,6 +39,7 @@ public class Player : MonoBehaviour
     [Header("Swimming")]
     public float oxygen = 100;
     public float oxygenDecrease = 0.5f;
+    public float oxygenIncrease = 1.0f;
     public bool IsInWater = false;
     public bool isOutOfDepth = false;
     private FogMode fogMode;
@@ -66,6 +67,7 @@ public class Player : MonoBehaviour
     public bool canCarry = true;
     private float fadeCounter = 0;
     private bool alive = true;
+    public GameObject Flare;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -91,7 +93,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
 
@@ -110,7 +111,7 @@ public class Player : MonoBehaviour
 
         if (IsInWater)
         {
-            if(isOutOfDepth)
+            if (isOutOfDepth)
             {
                 anim.SetBool("Swimming", true);
                 rb.drag = 3.0f;
@@ -121,6 +122,7 @@ public class Player : MonoBehaviour
                     transform.rotation = Quaternion.RotateTowards(transform.rotation,
                                   Quaternion.Euler(60, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), rotSpeed * Time.deltaTime);
                     swimmingAngle = transform.rotation.x;
+
                 }
                 else
                 {
@@ -163,6 +165,7 @@ public class Player : MonoBehaviour
                 else
                 {
                     setRenderDefault();
+                    IncreaseOxygen(oxygenIncrease);
                 }
             }
             else if(ExitingWater())
@@ -203,7 +206,7 @@ public class Player : MonoBehaviour
         {
             if (!canCarry)
             {
-                if (!isUnderWater())
+                if (!isOutOfDepth)
                 {
                     anim.SetBool("Throw", true);
                 }
@@ -215,6 +218,10 @@ public class Player : MonoBehaviour
             anim.SetBool("Throw", false);
         }
 
+        if (Input.GetButtonDown("DropFlare"))
+        {
+            Instantiate(Flare, new Vector3(transform.position.x + 0.5f, transform.position.y, transform.position.z), Quaternion.identity);
+        }
 
         if (oxygen <= 0)
         {
@@ -230,6 +237,7 @@ public class Player : MonoBehaviour
             oxygen = 0;
         }
     }
+
     private void IncreaseOxygen(float amount)
     {
         oxygen += amount;

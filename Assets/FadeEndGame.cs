@@ -5,6 +5,8 @@ using UnityEngine;
 public class FadeEndGame : MonoBehaviour
 {
     private WinState win;
+    public GameObject EndExplosion;
+
     private void Start()
     {
         win = gameObject.GetComponent<WinState>();
@@ -14,6 +16,7 @@ public class FadeEndGame : MonoBehaviour
     {
         if(collision.tag == "Throwable")
         {
+            Instantiate(EndExplosion, this.transform).transform.parent = null;
             win.state = WinState.states.VICTORY;
         }
     }

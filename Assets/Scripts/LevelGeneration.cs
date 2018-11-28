@@ -332,7 +332,7 @@ public class LevelGeneration : MonoBehaviour
     #region cap paths
     void EndPath(Transform Door)
     {
-        GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x, Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
+        GameObject DeadEnd = Instantiate(deadEnd, new Vector3(Door.position.x , Door.position.y + 1.1f, Door.position.z), Quaternion.identity);
         DeadEnd.transform.parent = Door;
         DeadEnd.transform.eulerAngles = Door.eulerAngles;
         CaveSystem.Add(DeadEnd);
