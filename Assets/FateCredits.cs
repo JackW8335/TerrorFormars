@@ -67,7 +67,7 @@ public class FateCredits : MonoBehaviour {
                 }
             case 2:
                 {
-                    Application.Quit();
+                    SceneManager.LoadScene("Victory");
                     break;
                 }
         }
