@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
     private float fadeCounter = 0;
     private bool alive = true;
     public GameObject Flare;
+    public GameObject waterEffect;
 
     [Header("Audio Stuff")]
     private GameObject audioManager;
@@ -138,12 +139,16 @@ public class Player : MonoBehaviour
                         Submerge();
                         submerged = true;
                         emerged = false;
+                        waterEffect.SetActive(false);
+
                     }
                     else if (submerged)
                     {
                         WaterAmbient();
+                        waterEffect.SetActive(true);
                     }
 
+                    setRenderDive();
                     setRenderDive();
                     LowerOxygen(oxygenDecrease);
                     if (Input.GetButton("Surface") && isUnderWater())
