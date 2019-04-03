@@ -1608,7 +1608,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Terraform
+  m_Text: Terraformars
 --- !u!222 &703904805
 CanvasRenderer:
   m_ObjectHideFlags: 0
